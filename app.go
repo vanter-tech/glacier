@@ -3,6 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
+	"glacier/iceberg/database"
+	"glacier/iceberg/database/queries"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -18,7 +20,6 @@ func NewApp() *App {
 func (b *App) startup(ctx context.Context) {
 	b.ctx = ctx
 }
-
 
 func (b *App) shutdown(ctx context.Context) {
 	// Perform your teardown here
@@ -38,4 +39,11 @@ func (b *App) ShowDialog() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+// --- Database Bindings ---
+
+// GetAccounts retrieves a list of all accounts.
+func (b *App) GetAccounts() []queries.Account {
+	return database.GetAllAccounts()
 }
