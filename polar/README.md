@@ -1,27 +1,32 @@
-# Frontend
+# Polar
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.4.
+Polar is the Angular-based frontend interface for the Glacier desktop application. It provides the user interface for both personal finance management and small business inventory tracking.
 
-## Development server
+## Architecture Role
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Polar serves as the UI layer that communicates with the Go backend via the Wails bridge.
 
-## Code scaffolding
+* State Management: Handles user transitions between Personal and Store profiles.
+* Data Visualization: Renders financial trends and inventory stock levels.
+* Security: Interfaces with the backend's type-safe sqlc engine.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Getting Started
 
-## Build
+To run the frontend within the desktop environment with hot-reloading:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Ensure the Wails CLI is installed.
+2. From the root project directory, run:
+   wails dev
 
-## Running unit tests
+To test UI components in isolation:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Navigate to the frontend directory.
+2. Run:
+   npm install
+   ng serve
+3. Navigate to http://localhost:4200/ in your browser.
 
-## Running end-to-end tests
+## Project Structure
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+* src/app/: Contains the core logic for profile switching and dashboards.
+* wailsjs/: Contains the auto-generated TypeScript bindings for the Go backend.
