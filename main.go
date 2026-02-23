@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"glacier/iceberg/database"
 	"log"
 
 	"github.com/wailsapp/wails/v2"
@@ -15,11 +16,13 @@ var assets embed.FS
 
 func main() {
 	// Create an instance of the app structure
+	database.InitDB()
+
 	app := NewApp()
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:  "{{.ProjectName}}",
+		Title:  "Glacier",
 		Width:  720,
 		Height: 570,
 		// MinWidth:          720,
@@ -31,12 +34,12 @@ func main() {
 		Frameless:         false,
 		StartHidden:       false,
 		HideWindowOnClose: false,
-		RGBA:              &options.RGBA{R: 255, G: 255, B: 255, A: 255},
+		BackgroundColour:  &options.RGBA{R: 255, G: 255, B: 255, A: 255},
 		Assets:            assets,
 		LogLevel:          logger.DEBUG,
 		OnStartup:         app.startup,
-		OnDomReady:        app.domReady,
-		OnShutdown:        app.shutdown,
+		//OnDomReady:        app.domReady,
+		OnShutdown: app.shutdown,
 		Bind: []interface{}{
 			app,
 		},
