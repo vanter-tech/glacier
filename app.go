@@ -45,5 +45,17 @@ func (b *App) ShowDialog() {
 
 // GetAccounts retrieves a list of all accounts.
 func (b *App) GetAccounts() []queries.Account {
-	return database.GetAllAccounts()
+	accounts, err := database.Q.GetAllAccounts(context.Background())
+
+	if err != nil {
+		fmt.Println("Error fetching accounts from sqlc:", err)
+		return nil
+	}
+
+	return accounts
+}
+
+// ActivateProfile gets the user's profile from Polar
+func (b *App) ActivateProfile(profileType string) error {
+	return database.ActivateProfile(profileType)
 }
