@@ -1,0 +1,10 @@
+version: "2"
+sql:
+  - engine: "sqlite"
+    queries: "iceberg/database/queries/query.sql"
+    schema: "iceberg/database/queries/schema.sql"
+    gen:
+      go:
+        package: "database"
+        out: "iceberg/database/queries"
+        emit_json_tags: true
