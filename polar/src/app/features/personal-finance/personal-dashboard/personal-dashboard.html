@@ -1,9 +1,9 @@
-<div class="relative flex h-screen w-full bg-isabelline text-smoky dark:bg-smoky dark:text-isabelline overflow-hidden">
+<div class="relative flex h-screen w-full bg-isabelline text-smoky dark:bg-gh-bg dark:text-gh-text overflow-hidden transition-colors duration-500">
 
   <div class="group absolute left-0 top-0 h-full w-1/12 hover:w-64 z-50">
 
     <aside
-      class="h-full w-64 bg-isabelline dark:bg-smoky border-r border-smoky/10 dark:border-isabelline/10 flex flex-col shadow-2xl -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-in-out">
+      class="h-full w-64 bg-isabelline dark:bg-gh-bg border-r border-smoky/10 dark:border-gh-border flex flex-col shadow-2xl -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-in-out">
 
       <div class="p-6 font-bold text-xl tracking-tight whitespace-nowrap">
         Glacier
@@ -15,7 +15,9 @@
           (click)="switchTab('summary')"
           [class.bg-sunglow]="activeTab === 'summary'"
           [class.text-smoky]="activeTab === 'summary'"
-          class="text-left px-4 py-2 rounded-md hover:bg-sunglow/50 transition-colors">
+          [class.dark:bg-gh-surface]="activeTab === 'summary'"
+          [class.dark:text-gh-accent]="activeTab === 'summary'"
+          class="text-left px-4 py-2 rounded-md hover:bg-sunglow/50 dark:hover:bg-gh-surface transition-colors">
           {{ 'PERSONAL.TAB_SUMMARY' | translate }}
         </button>
 
@@ -23,7 +25,9 @@
           (click)="switchTab('receipts')"
           [class.bg-sunglow]="activeTab === 'receipts'"
           [class.text-smoky]="activeTab === 'receipts'"
-          class="text-left px-4 py-2 rounded-md hover:bg-sunglow/50 transition-colors">
+          [class.dark:bg-gh-surface]="activeTab === 'receipts'"
+          [class.dark:text-gh-accent]="activeTab === 'receipts'"
+          class="text-left px-4 py-2 rounded-md hover:bg-sunglow/50 dark:hover:bg-gh-surface transition-colors">
           {{ 'PERSONAL.TAB_RECEIPTS' | translate }}
         </button>
 
@@ -31,7 +35,9 @@
           (click)="switchTab('due-payments')"
           [class.bg-sunglow]="activeTab === 'due-payments'"
           [class.text-smoky]="activeTab === 'due-payments'"
-          class="text-left px-4 py-2 rounded-md hover:bg-sunglow/50 transition-colors">
+          [class.dark:bg-gh-surface]="activeTab === 'due-payments'"
+          [class.dark:text-gh-accent]="activeTab === 'due-payments'"
+          class="text-left px-4 py-2 rounded-md hover:bg-sunglow/50 dark:hover:bg-gh-surface transition-colors">
           {{ 'PERSONAL.TAB_DUE_PAYMENTS' | translate }}
         </button>
 
@@ -39,7 +45,9 @@
           (click)="switchTab('cash-flow')"
           [class.bg-sunglow]="activeTab === 'cash-flow'"
           [class.text-smoky]="activeTab === 'cash-flow'"
-          class="text-left px-4 py-2 rounded-md hover:bg-sunglow/50 transition-colors">
+          [class.dark:bg-gh-surface]="activeTab === 'cash-flow'"
+          [class.dark:text-gh-accent]="activeTab === 'cash-flow'"
+          class="text-left px-4 py-2 rounded-md hover:bg-sunglow/50 dark:hover:bg-gh-surface transition-colors">
           {{ 'PERSONAL.TAB_CASH_FLOW' | translate }}
         </button>
       </nav>
@@ -48,16 +56,24 @@
 
   <main class="flex-1 flex flex-col w-full h-full">
 
-    <header class="h-16 border-b border-smoky/10 dark:border-isabelline/10 flex items-center justify-between px-8">
+    <header class="h-16 border-b border-smoky/10 dark:border-gh-border flex items-center justify-between px-8">
 
       <h2 class="text-lg font-semibold capitalize">{{ activeTab.replace('-', ' ') }}</h2>
 
-      <div class="flex items-center gap-2">
-        <input type="date"
-               class="bg-transparent border border-smoky/20 dark:border-isabelline/20 dark:[color-scheme:dark] rounded px-2 py-1 text-sm outline-none focus:border-sunglow">
-        <span>-</span>
-        <input type="date"
-               class="bg-transparent border border-smoky/20 dark:border-isabelline/20 dark:[color-scheme:dark] rounded px-2 py-1 text-sm outline-none focus:border-sunglow">
+      <div class="flex items-center gap-4">
+        <button
+          (click)="theme.toggleTheme()"
+          class="px-3 py-1 rounded-md border border-smoky/20 dark:border-gh-border hover:bg-smoky/5 dark:hover:bg-gh-surface transition-colors text-sm">
+          {{ theme.isDarkMode() ? 'Light Mode' : 'Dark Mode' }}
+        </button>
+
+        <div class="flex items-center gap-2">
+          <input type="date"
+                 class="bg-transparent border border-smoky/20 dark:border-gh-border dark:text-gh-text dark:[color-scheme:dark] rounded px-2 py-1 text-sm outline-none focus:border-sunglow dark:focus:border-gh-accent">
+          <span class="dark:text-gh-muted">-</span>
+          <input type="date"
+                 class="bg-transparent border border-smoky/20 dark:border-gh-border dark:text-gh-text dark:[color-scheme:dark] rounded px-2 py-1 text-sm outline-none focus:border-sunglow dark:focus:border-gh-accent">
+        </div>
       </div>
     </header>
 
