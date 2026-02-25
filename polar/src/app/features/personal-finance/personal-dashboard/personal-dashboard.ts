@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, output} from '@angular/core';
 import {TranslateModule} from "@ngx-translate/core";
 import {Summary} from "../components/summary/summary";
 import {Receipts} from "../components/receipts/receipts";
@@ -15,9 +15,15 @@ import {Theme} from '../../../core/theme';
 })
 export class PersonalDashboard {
   theme = inject(Theme)
+  onSwitchProfile = output<void>();
+
   activeTab: 'summary' | 'receipts' | 'due-payments' | 'cash-flow' = 'summary';
 
   switchTab(tab: 'summary' | 'receipts' | 'due-payments' | 'cash-flow') {
     this.activeTab = tab;
+  }
+
+  triggerProfileSwitch() {
+    this.onSwitchProfile.emit();
   }
 }

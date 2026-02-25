@@ -51,6 +51,14 @@
           {{ 'PERSONAL.TAB_CASH_FLOW' | translate }}
         </button>
       </nav>
+
+      <div class="mt-auto px-4 mb-6 whitespace-nowrap">
+        <button
+          (click)="triggerProfileSwitch()"
+          class="w-full text-left px-4 py-2 rounded-md border border-smoky/20 dark:border-gh-border hover:bg-smoky/5 dark:hover:bg-gh-surface transition-colors text-smoky dark:text-gh-text text-sm">
+          &larr; Switch Profile
+        </button>
+      </div>
     </aside>
   </div>
 
