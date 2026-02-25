@@ -1,0 +1,10 @@
+{
+  "ONBOARDING": {
+    "TITLE": "Glacier",
+    "SUBTITLE": "Select your workspace profile to get started.",
+    "PERSONAL_TITLE": "Personal Finance",
+    "PERSONAL_DESC": "Track your daily expenses, manage savings goals, and monitor your personal bank accounts.",
+    "STORE_TITLE": "Store Owner",
+    "STORE_DESC": "Manage your local store inventory, track product prices, and maintain client credit tabs."
+  }
+}

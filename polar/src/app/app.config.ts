@@ -1,25 +1,26 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideHttpClient } from "@angular/common/http";
-import { HttpClient } from "@angular/common/http";
-import { provideTranslateService, TranslateLoader } from '@ngx-translate/core'
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-const httpLoaderFactory = (http: HttpClient) => {
-  return new TranslateHttpLoader();
-}
+import {ApplicationConfig, importProvidersFrom, provideBrowserGlobalErrorListeners} from '@angular/core';
+import {provideHttpClient} from "@angular/common/http";
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core'
+import {provideTranslateHttpLoader, TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(),
 
-    provideTranslateService({
-      defaultLanguage: 'en',
-      loader: {
-        provide: TranslateLoader,
-        useFactory: httpLoaderFactory,
-        deps: [HttpClient],
-      }
-    })
+    ...provideTranslateHttpLoader({
+      prefix: '/i18n/',
+      suffix: '.json'
+    }),
+
+    importProvidersFrom(
+      TranslateModule.forRoot({
+        loader: {
+          provide: TranslateLoader,
+          useClass: TranslateHttpLoader
+        },
+        fallbackLang: 'en'
+      })
+    )
   ]
 };
