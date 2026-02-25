@@ -6,5 +6,11 @@
     "PERSONAL_DESC": "Controla tus gastos diarios, gestiona tus metas de ahorro y monitorea tus cuentas bancarias.",
     "STORE_TITLE": "Dueño de Negocios",
     "STORE_DESC": "Administra el inventario de tu negocio, controla precios y lleva las cuentas de crédito de tus clientes."
+  },
+  "PERSONAL": {
+    "TAB_SUMMARY": "Resumen",
+    "TAB_RECEIPTS": "Recibos",
+    "TAB_DUE_PAYMENTS": "Pagos Pendientes",
+    "TAB_CASH_FLOW": "Flujo"
   }
 }

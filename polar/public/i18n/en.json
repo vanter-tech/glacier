@@ -6,5 +6,11 @@
     "PERSONAL_DESC": "Track your daily expenses, manage savings goals, and monitor your personal bank accounts.",
     "STORE_TITLE": "Store Owner",
     "STORE_DESC": "Manage your local store inventory, track product prices, and maintain client credit tabs."
+  },
+  "PERSONAL": {
+    "TAB_SUMMARY": "Summary",
+    "TAB_RECEIPTS": "Receipts",
+    "TAB_DUE_PAYMENTS": "Due Payments",
+    "TAB_CASH_FLOW": "Cash Flow"
   }
 }
