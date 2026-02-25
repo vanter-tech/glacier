@@ -1,9 +1,9 @@
-<div class="relative flex h-screen w-full bg-isabelline text-smoky overflow-hidden">
+<div class="relative flex h-screen w-full bg-isabelline text-smoky dark:bg-smoky dark:text-isabelline overflow-hidden">
 
   <div class="group absolute left-0 top-0 h-full w-1/12 hover:w-64 z-50">
 
     <aside
-      class="h-full w-64 bg-isabelline border-r border-smoky/10 flex flex-col shadow-2xl -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-in-out">
+      class="h-full w-64 bg-isabelline dark:bg-smoky border-r border-smoky/10 dark:border-isabelline/10 flex flex-col shadow-2xl -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-in-out">
 
       <div class="p-6 font-bold text-xl tracking-tight whitespace-nowrap">
         Glacier
@@ -48,16 +48,16 @@
 
   <main class="flex-1 flex flex-col w-full h-full">
 
-    <header class="h-16 border-b border-smoky/10 flex items-center justify-between px-8">
+    <header class="h-16 border-b border-smoky/10 dark:border-isabelline/10 flex items-center justify-between px-8">
 
       <h2 class="text-lg font-semibold capitalize">{{ activeTab.replace('-', ' ') }}</h2>
 
       <div class="flex items-center gap-2">
         <input type="date"
-               class="bg-transparent border border-smoky/20 rounded px-2 py-1 text-sm outline-none focus:border-sunglow">
+               class="bg-transparent border border-smoky/20 dark:border-isabelline/20 dark:[color-scheme:dark] rounded px-2 py-1 text-sm outline-none focus:border-sunglow">
         <span>-</span>
         <input type="date"
-               class="bg-transparent border border-smoky/20 rounded px-2 py-1 text-sm outline-none focus:border-sunglow">
+               class="bg-transparent border border-smoky/20 dark:border-isabelline/20 dark:[color-scheme:dark] rounded px-2 py-1 text-sm outline-none focus:border-sunglow">
       </div>
     </header>
 
