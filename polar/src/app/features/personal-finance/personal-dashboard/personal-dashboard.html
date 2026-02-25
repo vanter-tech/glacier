@@ -1,8 +1,9 @@
 <div class="relative flex h-screen w-full bg-isabelline text-smoky overflow-hidden">
 
-  <div class="group absolute left-0 top-0 h-full w-4 hover:w-64 z-50">
+  <div class="group absolute left-0 top-0 h-full w-1/12 hover:w-64 z-50">
 
-    <aside class="h-full w-64 bg-isabelline border-r border-smoky/10 flex flex-col shadow-2xl -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-in-out">
+    <aside
+      class="h-full w-64 bg-isabelline border-r border-smoky/10 flex flex-col shadow-2xl -translate-x-full group-hover:translate-x-0 transition-transform duration-300 ease-in-out">
 
       <div class="p-6 font-bold text-xl tracking-tight whitespace-nowrap">
         Glacier
@@ -52,9 +53,11 @@
       <h2 class="text-lg font-semibold capitalize">{{ activeTab.replace('-', ' ') }}</h2>
 
       <div class="flex items-center gap-2">
-        <input type="date" class="bg-transparent border border-smoky/20 rounded px-2 py-1 text-sm outline-none focus:border-sunglow">
+        <input type="date"
+               class="bg-transparent border border-smoky/20 rounded px-2 py-1 text-sm outline-none focus:border-sunglow">
         <span>-</span>
-        <input type="date" class="bg-transparent border border-smoky/20 rounded px-2 py-1 text-sm outline-none focus:border-sunglow">
+        <input type="date"
+               class="bg-transparent border border-smoky/20 rounded px-2 py-1 text-sm outline-none focus:border-sunglow">
       </div>
     </header>
 
