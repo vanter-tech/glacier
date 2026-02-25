@@ -4,8 +4,7 @@
   }
 
   @if (currentView === 'personal') {
-    <app-personal-dashboard />
-  }
+    <app-personal-dashboard (onSwitchProfile)="currentView = 'onboarding'"></app-personal-dashboard>  }
 
   @if (currentView === 'store') {
     <div class="p-10 flex flex-col items-center justify-center min-h-screen">
