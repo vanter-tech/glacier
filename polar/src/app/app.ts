@@ -1,13 +1,15 @@
 import {Component, signal} from '@angular/core';
 import {ActivateProfile} from "../../wailsjs/go/main/App";
-import {Onboarding} from "./onboarding/onboarding";
+import {Onboarding} from "./features/onboarding/onboarding"
 import {TranslatePipe} from "@ngx-translate/core";
+import {PersonalDashboard} from "./features/personal-finance/personal-dashboard/personal-dashboard";
 
 @Component({
   selector: 'app-root',
   imports: [
     Onboarding,
-    TranslatePipe
+    TranslatePipe,
+    PersonalDashboard
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'

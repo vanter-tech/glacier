@@ -4,11 +4,7 @@
   }
 
   @if (currentView === 'personal') {
-    <div class="p-10 flex flex-col items-center justify-center min-h-screen">
-      <h1 class="text-4xl font-bold">{{ 'ONBOARDING.PERSONAL_TITLE' | translate }}</h1>
-      <p class="mt-4 opacity-70">{{ 'ONBOARDING.PERSONAL_DESC' | translate }}</p>
-    </div>
-
+    <app-personal-dashboard />
   }
 
   @if (currentView === 'store') {
