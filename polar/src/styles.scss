@@ -1,8 +1,19 @@
 @use "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
 @theme {
   --color-smoky: #0F0A0A;
   --color-isabelline: #F5EFED;
   --color-sunglow: #FFD04F;
+
+  // Dark Mode
+  --color-gh-bg: #0d1117;
+  --color-gh-surface: #161b22;
+  --color-gh-border: #30363d;
+  --color-gh-text: #c9d1d9;
+  --color-gh-muted: #8b949e;
+  --color-gh-accent: #58a6ff;
 }
 
 body {
