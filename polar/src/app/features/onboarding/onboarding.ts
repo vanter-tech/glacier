@@ -1,6 +1,7 @@
-import {Component, EventEmitter, inject, Output} from '@angular/core';
+import {Component, inject, output} from '@angular/core';
 import {TranslatePipe} from "@ngx-translate/core";
 import {Theme} from '../../core/theme';
+import {ProfileType} from '../../app';
 
 @Component({
   selector: 'app-onboarding',
@@ -11,9 +12,11 @@ import {Theme} from '../../core/theme';
 })
 export class Onboarding {
   theme = inject(Theme)
-  @Output() profileSelected = new EventEmitter<string>();
+  public ProfileType = ProfileType;
 
-  chooseProfile(type: string) {
+  profileSelected = output<ProfileType>();
+
+  chooseProfile(type: ProfileType) {
     this.profileSelected.emit(type);
   }
 }
