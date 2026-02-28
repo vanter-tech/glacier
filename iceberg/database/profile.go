@@ -1,17 +1,22 @@
 package database
 
-type Profile struct {
-	FirstName string
-	LastName  string
-	ProfileId int
-}
+import (
+	"context"
+	"fmt"
+	"glacier/iceberg/database/queries"
+)
 
-func NewProfile() *Profile {
-	return &Profile{}
-}
-
-func (p *Profile) ActivateProfile(profileType string) error {
+func ActivateProfile(profileType string) error {
 	InitDB()
+
+	err := Q.SetAppSetting(context.Background(), queries.SetAppSettingParams{
+		Key:   "active_profile",
+		Value: profileType,
+	})
+
+	if err != nil {
+		return fmt.Errorf("failed to save active profile setting: %w", err)
+	}
 
 	return nil
 }
