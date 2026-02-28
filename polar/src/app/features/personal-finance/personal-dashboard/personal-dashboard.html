@@ -56,7 +56,7 @@
         <button
           (click)="triggerProfileSwitch()"
           class="w-full text-left px-4 py-2 rounded-md border border-smoky/20 dark:border-gh-border hover:bg-smoky/5 dark:hover:bg-gh-surface transition-colors text-smoky dark:text-gh-text text-sm">
-          &larr; Switch Profile
+          &larr; {{ 'UTIL.SWITCH_PROFILE' | translate }}
         </button>
       </div>
     </aside>
@@ -66,7 +66,7 @@
 
     <header class="h-16 border-b border-smoky/10 dark:border-gh-border flex items-center justify-between px-8">
 
-      <h2 class="text-lg font-semibold capitalize">{{ activeTab.replace('-', ' ') }}</h2>
+      <h2 class="text-lg font-semibold capitalize">{{ 'PERSONAL.TAB_' + activeTab.toUpperCase().replace('-', '_') | translate }}</h2>
 
       <div class="flex items-center gap-4">
         <button
