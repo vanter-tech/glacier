@@ -5,6 +5,6 @@ sql:
     schema: "iceberg/database/queries/schema.sql"
     gen:
       go:
-        package: "database"
+        package: "queries"
         out: "iceberg/database/queries"
         emit_json_tags: true
