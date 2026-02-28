@@ -12,5 +12,15 @@
     "TAB_RECEIPTS": "Receipts",
     "TAB_DUE_PAYMENTS": "Due Payments",
     "TAB_CASH_FLOW": "Cash Flow"
+  },
+  "STORE": {
+    "TAB_SUMMARY": "Summary",
+    "TAB_SALES": "Sales",
+    "TAB_INVENTORY": "Inventory",
+    "TAB_CLIENTS": "Clients",
+    "TAB_CASH_FLOW": "Cash Flow"
+  },
+  "UTIL": {
+    "SWITCH_PROFILE": "Switch Profile"
   }
 }

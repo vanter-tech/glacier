@@ -11,6 +11,16 @@
     "TAB_SUMMARY": "Resumen",
     "TAB_RECEIPTS": "Recibos",
     "TAB_DUE_PAYMENTS": "Pagos Pendientes",
-    "TAB_CASH_FLOW": "Flujo"
+    "TAB_CASH_FLOW": "Flujo de Efectivo"
+  },
+  "STORE": {
+    "TAB_SUMMARY": "Resumen",
+    "TAB_SALES": "Ventas",
+    "TAB_INVENTORY": "Inventario",
+    "TAB_CLIENTS": "Clientes",
+    "TAB_CASH_FLOW": "Flujo de Efectivo"
+  },
+  "UTIL": {
+    "SWITCH_PROFILE": "Cambiar Perfil"
   }
 }
