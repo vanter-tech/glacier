@@ -11,7 +11,16 @@
     "TAB_SUMMARY": "Resumen",
     "TAB_RECEIPTS": "Recibos",
     "TAB_DUE_PAYMENTS": "Pagos Pendientes",
-    "TAB_CASH_FLOW": "Flujo de Efectivo"
+    "TAB_CASH_FLOW": "Flujo de Efectivo",
+    "RECEIPTS_LEDGER": "Registro de Recibos",
+    "ADD_RECEIPT": "Añadir Recibo",
+    "NO_RECEIPTS_TITLE": "No Hay Recibos",
+    "NO_RECEIPTS_DESC": "Agrega un recibo para empezar.",
+    "AMOUNT": "Monto",
+    "DATE": "Fecha",
+    "DESCRIPTION": "Descripción",
+    "CANCEL": "Cancelar",
+    "SAVE_RECEIPT": "Guardar Recibo"
   },
   "STORE": {
     "TAB_SUMMARY": "Resumen",

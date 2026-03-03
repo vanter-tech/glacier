@@ -11,7 +11,16 @@
     "TAB_SUMMARY": "Summary",
     "TAB_RECEIPTS": "Receipts",
     "TAB_DUE_PAYMENTS": "Due Payments",
-    "TAB_CASH_FLOW": "Cash Flow"
+    "TAB_CASH_FLOW": "Cash Flow",
+    "RECEIPTS_LEDGER": "Receipts Ledger",
+    "ADD_RECEIPT": "Add Receipt",
+    "NO_RECEIPTS_TITLE": "No Receipts",
+    "NO_RECEIPTS_DESC": "Add a receipt to begin.",
+    "AMOUNT": "Amount",
+    "DATE": "Date",
+    "DESCRIPTION": "Description",
+    "CANCEL": "Cancel",
+    "SAVE_RECEIPT": "Save Receipt"
   },
   "STORE": {
     "TAB_SUMMARY": "Summary",
