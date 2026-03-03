@@ -1,1 +1,25 @@
-<p>receipts works!</p>
+<div class="h-full flex flex-col gap-6">
+  <div class="flex justify-between items-center">
+    <h3 class="text-2xl font-bold">{{ 'PERSONAL.RECEIPTS_LEDGER' | translate }}</h3>
+    <button (click)="openModal()" class="bg-sunglow dark:bg-gh-accent text-smoky dark:text-gh-bg font-bold px-4 py-2 rounded-md hover:bg-sunglow/80 dark:hover:bg-gh-accent/80 transition-colors shadow-sm hover:-translate-y-0.5">
+      + {{ 'PERSONAL.ADD_RECEIPT' | translate }}
+    </button>
+  </div>
+  <div class="flex-1 bg-white dark:bg-gh-surface rounded-xl border border-smoky/10 dark:border-gh-border overflow-hidden flex flex-col shadow-sm">
+    <div class="flex-1 flex flex-col items-center justify-center p-12 text-center">
+      <div class="w-16 h-16 rounded-full bg-smoky/5 dark:bg-gh-bg flex items-center justify-center mb-4">
+        <img [src]="iconPath" alt="Receipt Icon" class="w-8 h-8 opacity-50 dark:opacity-75">
+      </div>
+      <p class="text-lg font-medium text-smoky dark:text-gh-text mb-1">{{ 'PERSONAL.NO_RECEIPTS_TITLE' | translate }}</p>
+      <p class="text-sm text-smoky/70 dark:text-gh-muted max-w-sm">{{ 'PERSONAL.NO_RECEIPTS_DESC' | translate }}</p>
+    </div>
+  </div>
+</div>
+
+@if (isModalOpen) {
+  <app-modal [title]="'PERSONAL.NEW_RECEIPT' | translate" (onClose)="closeModal()">
+    <div modal-body>
+      <app-receipt-form (onCancel)="closeModal()" (onSave)="closeModal()"></app-receipt-form>
+    </div>
+  </app-modal>
+}
