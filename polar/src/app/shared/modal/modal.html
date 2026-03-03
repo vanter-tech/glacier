@@ -1,6 +1,6 @@
 <div class="fixed inset-0 z-50 flex items-center justify-center">
   <div (click)="close()" class="absolute inset-0 bg-smoky/50 backdrop-blur-sm transition-opacity"></div>
-  <div class="relative w-4/5 max-w-2xl bg-white dark:bg-gh-surface rounded-2xl shadow-2xl flex flex-col overflow-hidden max-h-[90vh]">
+  <div class="relative w-4/5 max-w-2xl bg-white dark:bg-gh-surface rounded-2xl shadow-2xl flex flex-col overflow-hidden max-h-[90vh] animate-scale-up">
     <div class="px-6 py-4 border-b border-smoky/10 dark:border-gh-border flex justify-between items-center bg-isabelline/50 dark:bg-gh-bg/50">
       <h2 class="text-xl font-bold text-smoky dark:text-gh-text">{{ title() }}</h2>
       <button (click)="close()" class="text-smoky/50 hover:text-smoky dark:text-gh-muted dark:hover:text-gh-text transition-colors">
