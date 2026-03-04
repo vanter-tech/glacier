@@ -4,7 +4,13 @@ import {queries} from '../models';
 
 export function ActivateProfile(arg1:string):Promise<void>;
 
+export function CreateReceipt(arg1:number,arg2:string,arg3:string):Promise<queries.Receipt>;
+
 export function GetAccounts():Promise<Array<queries.Account>>;
+
+export function GetAllReceipts():Promise<Array<queries.Receipt>>;
+
+export function GetReceiptById(arg1:number):Promise<queries.Receipt>;
 
 export function Greet(arg1:string):Promise<string>;
 
