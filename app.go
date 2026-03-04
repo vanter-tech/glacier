@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"glacier/iceberg/database"
 	"glacier/iceberg/database/queries"
+	"glacier/iceberg/receipts"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -58,4 +59,19 @@ func (b *App) GetAccounts() []queries.Account {
 // ActivateProfile gets the user's profile from Polar
 func (b *App) ActivateProfile(profileType string) error {
 	return database.ActivateProfile(profileType)
+}
+
+// CreateReceipt creates a receipt with the form received from Angular
+func (b *App) CreateReceipt(amount float64, date string, description string) (queries.Receipt, error) {
+	return receipts.CreateReceipt(amount, date, description)
+}
+
+// GetAllReceipts gets all receipts
+func (b *App) GetAllReceipts() ([]queries.Receipt, error) {
+	return receipts.GetAllReceipts()
+}
+
+// GetReceiptById gets a receipt by ID
+func (b *App) GetReceiptById(id int64) (queries.Receipt, error) {
+	return receipts.GetReceiptById(id)
 }
