@@ -16,10 +16,10 @@
   </div>
 </div>
 
-@if (isModalOpen) {
+@if (isModalOpen()) {
   <app-modal [title]="'PERSONAL.NEW_RECEIPT' | translate" (onClose)="closeModal()">
     <div modal-body>
-      <app-receipt-form (onCancel)="closeModal()" (onSave)="closeModal()"></app-receipt-form>
+      <app-receipt-form (onCancel)="closeModal()" (onSave)="saveReceipt($event)"></app-receipt-form>
     </div>
   </app-modal>
 }
