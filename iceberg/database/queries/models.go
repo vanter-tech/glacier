@@ -36,6 +36,13 @@ type Product struct {
 	ImagePath  sql.NullString `json:"image_path"`
 }
 
+type Receipt struct {
+	ID          int64          `json:"id"`
+	Amount      float64        `json:"amount"`
+	Date        string         `json:"date"`
+	Description sql.NullString `json:"description"`
+}
+
 type StoreSale struct {
 	ID         int64         `json:"id"`
 	Date       sql.NullTime  `json:"date"`

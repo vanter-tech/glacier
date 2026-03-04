@@ -11,13 +11,13 @@ WHERE key = ? LIMIT 1;
 -- name: GetAllAccounts :many
 SELECT * FROM accounts;
 
---name: CreateReceipt :one
+-- name: CreateReceipt :one
 INSERT INTO receipts (amount, date, description)
 VALUES(?, ?, ?)
 RETURNING *;
 
---name: GetAllReceipts :many
+-- name: GetAllReceipts :many
 SELECT * FROM receipts ORDER BY date DESC;
 
---name: GetReceiptById :one
+-- name: GetReceiptById :one
 SELECT * FROM receipts WHERE id = ?;

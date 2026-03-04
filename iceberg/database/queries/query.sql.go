@@ -7,7 +7,32 @@ package queries
 
 import (
 	"context"
+	"database/sql"
 )
+
+const createReceipt = `-- name: CreateReceipt :one
+INSERT INTO receipts (amount, date, description)
+VALUES(?, ?, ?)
+RETURNING id, amount, date, description
+`
+
+type CreateReceiptParams struct {
+	Amount      float64        `json:"amount"`
+	Date        string         `json:"date"`
+	Description sql.NullString `json:"description"`
+}
+
+func (q *Queries) CreateReceipt(ctx context.Context, arg CreateReceiptParams) (Receipt, error) {
+	row := q.db.QueryRowContext(ctx, createReceipt, arg.Amount, arg.Date, arg.Description)
+	var i Receipt
+	err := row.Scan(
+		&i.ID,
+		&i.Amount,
+		&i.Date,
+		&i.Description,
+	)
+	return i, err
+}
 
 const getAllAccounts = `-- name: GetAllAccounts :many
 SELECT id, name, type, balance_cents FROM accounts
@@ -41,6 +66,38 @@ func (q *Queries) GetAllAccounts(ctx context.Context) ([]Account, error) {
 	return items, nil
 }
 
+const getAllReceipts = `-- name: GetAllReceipts :many
+SELECT id, amount, date, description FROM receipts ORDER BY date DESC
+`
+
+func (q *Queries) GetAllReceipts(ctx context.Context) ([]Receipt, error) {
+	rows, err := q.db.QueryContext(ctx, getAllReceipts)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Receipt
+	for rows.Next() {
+		var i Receipt
+		if err := rows.Scan(
+			&i.ID,
+			&i.Amount,
+			&i.Date,
+			&i.Description,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getAppSetting = `-- name: GetAppSetting :one
 SELECT value FROM app_settings
 WHERE key = ? LIMIT 1
@@ -51,6 +108,22 @@ func (q *Queries) GetAppSetting(ctx context.Context, key string) (string, error)
 	var value string
 	err := row.Scan(&value)
 	return value, err
+}
+
+const getReceiptById = `-- name: GetReceiptById :one
+SELECT id, amount, date, description FROM receipts WHERE id = ?
+`
+
+func (q *Queries) GetReceiptById(ctx context.Context, id int64) (Receipt, error) {
+	row := q.db.QueryRowContext(ctx, getReceiptById, id)
+	var i Receipt
+	err := row.Scan(
+		&i.ID,
+		&i.Amount,
+		&i.Date,
+		&i.Description,
+	)
+	return i, err
 }
 
 const setAppSetting = `-- name: SetAppSetting :exec
