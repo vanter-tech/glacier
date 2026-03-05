@@ -20,7 +20,11 @@
     "DATE": "Fecha",
     "DESCRIPTION": "Descripción",
     "CANCEL": "Cancelar",
-    "SAVE_RECEIPT": "Guardar Recibo"
+    "SAVE_RECEIPT": "Guardar Recibo",
+    "TABLE_ID": "ID",
+    "TABLE_DATE": "Fecha",
+    "TABLE_AMOUNT": "Monto",
+    "TABLE_DESCRIPTION": "Descripción"
   },
   "STORE": {
     "TAB_SUMMARY": "Resumen",

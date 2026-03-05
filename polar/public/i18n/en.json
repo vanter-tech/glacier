@@ -20,7 +20,11 @@
     "DATE": "Date",
     "DESCRIPTION": "Description",
     "CANCEL": "Cancel",
-    "SAVE_RECEIPT": "Save Receipt"
+    "SAVE_RECEIPT": "Save Receipt",
+    "TABLE_ID": "ID",
+    "TABLE_DATE": "Date",
+    "TABLE_AMOUNT": "Amount",
+    "TABLE_DESCRIPTION": "Description"
   },
   "STORE": {
     "TAB_SUMMARY": "Summary",
