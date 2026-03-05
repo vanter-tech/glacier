@@ -6,13 +6,60 @@
     </button>
   </div>
   <div class="flex-1 bg-white dark:bg-gh-surface rounded-xl border border-smoky/10 dark:border-gh-border overflow-hidden flex flex-col shadow-sm">
-    <div class="flex-1 flex flex-col items-center justify-center p-12 text-center">
-      <div class="w-16 h-16 rounded-full bg-smoky/5 dark:bg-gh-bg flex items-center justify-center mb-4">
-        <img [src]="iconPath" alt="Receipt Icon" class="w-8 h-8 opacity-50 dark:opacity-75">
-      </div>
-      <p class="text-lg font-medium text-smoky dark:text-gh-text mb-1">{{ 'PERSONAL.NO_RECEIPTS_TITLE' | translate }}</p>
-      <p class="text-sm text-smoky/70 dark:text-gh-muted max-w-sm">{{ 'PERSONAL.NO_RECEIPTS_DESC' | translate }}</p>
+
+    <div class="flex-1 overflow-auto">
+      <table class="w-full text-left border-collapse">
+        <thead class="bg-smoky/5 dark:bg-gh-bg sticky top-0 border-b border-smoky/10 dark:border-gh-border text-smoky/70 dark:text-gh-muted text-sm font-semibold">
+        <tr>
+          <th class="py-3 px-6">{{ 'PERSONAL.TABLE_ID' | translate }}</th>
+          <th class="py-3 px-6">{{ 'PERSONAL.TABLE_DATE' | translate }}</th>
+          <th class="py-3 px-6">{{ 'PERSONAL.TABLE_AMOUNT' | translate }}</th>
+          <th class="py-3 px-6">{{ 'PERSONAL.TABLE_DESCRIPTION' | translate }}</th>
+        </tr>
+        </thead>
+
+        <tbody class="text-smoky dark:text-gh-text text-sm">
+
+          @for (receipt of paginatedReceipts(); track receipt.id) {
+            <tr (click)="viewReceipt(receipt.id)" class="border-b border-smoky/10 dark:border-gh-border last:border-0 cursor-pointer hover:bg-smoky/5 dark:hover:bg-gh-bg/50 transition-colors">
+              <td class="py-3 px-6">{{ receipt.id }}</td>
+              <td class="py-3 px-6">{{ receipt.date }}</td>
+              <td class="py-3 px-6 font-medium">${{ receipt.amount }}</td>
+              <td class="py-3 px-6 truncate max-w-[200px]">{{ receipt.description.String }}</td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="4" class="p-12 text-center">
+                <div class="flex flex-col items-center justify-center">
+                  <div class="w-16 h-16 rounded-full bg-smoky/5 dark:bg-gh-bg flex items-center justify-center mb-4">
+                    <img [ngSrc]="iconPath" alt="Receipt Icon" class="w-8 h-8 opacity-50 dark:opacity-75" fill>
+                  </div>
+                  <p class="text-lg font-medium text-smoky dark:text-gh-text mb-1">{{ 'PERSONAL.NO_RECEIPTS_TITLE' | translate }}</p>
+                  <p class="text-sm text-smoky/70 dark:text-gh-muted max-w-sm">{{ 'PERSONAL.NO_RECEIPTS_DESC' | translate }}</p>
+                </div>
+
+              </td>
+            </tr>
+
+          }
+        </tbody>
+      </table>
     </div>
+
+    <div class="px-6 py-3 border-t border-smoky/10 dark:border-gh-border bg-smoky/5 dark:bg-gh-bg flex justify-between items-center text-sm text-smoky/70 dark:text-gh-muted">
+      <span>Page {{ currentPage() }}</span>
+
+      <div class="flex gap-2">
+        <button (click)="prevPage()" [disabled]="currentPage() === 1" class="px-3 py-1 rounded border border-smoky/20 dark:border-gh-border hover:bg-smoky/10 dark:hover:bg-gh-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          Previous
+        </button>
+
+        <button (click)="nextPage()" [disabled]="currentPage() * pageSize >= receipts().length" class="px-3 py-1 rounded border border-smoky/20 dark:border-gh-border hover:bg-smoky/10 dark:hover:bg-gh-surface disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          Next
+        </button>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -20,6 +67,14 @@
   <app-modal [title]="'PERSONAL.NEW_RECEIPT' | translate" (onClose)="closeModal()">
     <div modal-body>
       <app-receipt-form (onCancel)="closeModal()" (onSave)="saveReceipt($event)"></app-receipt-form>
+    </div>
+  </app-modal>
+}
+
+@if (isDetailModalOpen()) {
+  <app-modal [title]="'Receipt Details'" (onClose)="closeModal()">
+    <div modal-body>
+      <app-receipt-details [receipt]="selectedReceipt()"></app-receipt-details>
     </div>
   </app-modal>
 }
