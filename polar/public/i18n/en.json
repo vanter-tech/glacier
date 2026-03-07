@@ -1,0 +1,39 @@
+{
+  "ONBOARDING": {
+    "TITLE": "Glacier",
+    "SUBTITLE": "Select your workspace profile to get started.",
+    "PERSONAL_TITLE": "Personal Finance",
+    "PERSONAL_DESC": "Track your daily expenses, manage savings goals, and monitor your personal bank accounts.",
+    "STORE_TITLE": "Store Owner",
+    "STORE_DESC": "Manage your local store inventory, track product prices, and maintain client credit tabs."
+  },
+  "PERSONAL": {
+    "TAB_SUMMARY": "Summary",
+    "TAB_RECEIPTS": "Receipts",
+    "TAB_DUE_PAYMENTS": "Due Payments",
+    "TAB_CASH_FLOW": "Cash Flow",
+    "RECEIPTS_LEDGER": "Receipts Ledger",
+    "ADD_RECEIPT": "Add Receipt",
+    "NO_RECEIPTS_TITLE": "No Receipts",
+    "NO_RECEIPTS_DESC": "Add a receipt to begin.",
+    "AMOUNT": "Amount",
+    "DATE": "Date",
+    "DESCRIPTION": "Description",
+    "CANCEL": "Cancel",
+    "SAVE_RECEIPT": "Save Receipt",
+    "TABLE_ID": "ID",
+    "TABLE_DATE": "Date",
+    "TABLE_AMOUNT": "Amount",
+    "TABLE_DESCRIPTION": "Description"
+  },
+  "STORE": {
+    "TAB_SUMMARY": "Summary",
+    "TAB_SALES": "Sales",
+    "TAB_INVENTORY": "Inventory",
+    "TAB_CLIENTS": "Clients",
+    "TAB_CASH_FLOW": "Cash Flow"
+  },
+  "UTIL": {
+    "SWITCH_PROFILE": "Switch Profile"
+  }
+}
