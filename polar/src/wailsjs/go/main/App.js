@@ -10,6 +10,10 @@ export function CreateReceipt(arg1, arg2, arg3) {
   return window['go']['main']['App']['CreateReceipt'](arg1, arg2, arg3);
 }
 
+export function DeleteReceipt(arg1) {
+  return window['go']['main']['App']['DeleteReceipt'](arg1);
+}
+
 export function GetAccounts() {
   return window['go']['main']['App']['GetAccounts']();
 }

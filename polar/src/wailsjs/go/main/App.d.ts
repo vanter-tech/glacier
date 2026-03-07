@@ -6,6 +6,8 @@ export function ActivateProfile(arg1:string):Promise<void>;
 
 export function CreateReceipt(arg1:number,arg2:string,arg3:string):Promise<queries.Receipt>;
 
+export function DeleteReceipt(arg1:number):Promise<void>;
+
 export function GetAccounts():Promise<Array<queries.Account>>;
 
 export function GetAllReceipts():Promise<Array<queries.Receipt>>;
