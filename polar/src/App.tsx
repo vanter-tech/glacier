@@ -1,35 +1,33 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import {ProfileType} from "./core/type.ts";
+import { ActivateProfile } from './wailsjs/go/main/App';
 
-function App() {
-  const [count, setCount] = useState(0)
+import PersonalDashboard from './features/personal-finance/PersonalDashboard';
+import Onboarding from './features/onboarding/Onboarding';
+import StoreDashboard from './features/store-owner/StoreDashboard';
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+export default function App() {
+    const [currentView, setCurrentView] = useState<ProfileType>(ProfileType.ONBOARDING);
+
+    const selectProfile = async (profileType: ProfileType) => {
+        try {
+            await ActivateProfile(profileType);
+
+            setCurrentView(profileType);
+        } catch (error) {
+            console.error("Failed to activate profile:", error);
+        }
+    };
+
+    const views = {
+        [ProfileType.ONBOARDING]: <Onboarding onProfileSelected={selectProfile} />,
+        [ProfileType.PERSONAL]: <PersonalDashboard onSwitchProfile={() => setCurrentView(ProfileType.ONBOARDING)} />,
+        [ProfileType.STORE]: <StoreDashboard onSwitchProfile={() => setCurrentView(ProfileType.ONBOARDING)} />
+    };
+
+    return (
+        <div className="min-h-screen bg-isabelline text-smoky dark:bg-gh-bg dark:text-gh-text transition-colors duration-500">
+            {views[currentView]}
+        </div>
+    );
 }
-
-export default App
