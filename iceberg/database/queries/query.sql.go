@@ -34,6 +34,15 @@ func (q *Queries) CreateReceipt(ctx context.Context, arg CreateReceiptParams) (R
 	return i, err
 }
 
+const deleteReceiptById = `-- name: DeleteReceiptById :exec
+DELETE FROM receipts WHERE id = ?
+`
+
+func (q *Queries) DeleteReceiptById(ctx context.Context, id int64) error {
+	_, err := q.db.ExecContext(ctx, deleteReceiptById, id)
+	return err
+}
+
 const getAllAccounts = `-- name: GetAllAccounts :many
 SELECT id, name, type, balance_cents FROM accounts
 `
@@ -67,7 +76,7 @@ func (q *Queries) GetAllAccounts(ctx context.Context) ([]Account, error) {
 }
 
 const getAllReceipts = `-- name: GetAllReceipts :many
-SELECT id, amount, date, description FROM receipts ORDER BY date DESC
+SELECT id, amount, date, description FROM receipts ORDER BY id DESC
 `
 
 func (q *Queries) GetAllReceipts(ctx context.Context) ([]Receipt, error) {
