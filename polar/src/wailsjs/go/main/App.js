@@ -14,8 +14,8 @@ export function DeleteReceipt(arg1) {
   return window['go']['main']['App']['DeleteReceipt'](arg1);
 }
 
-export function GetAccounts() {
-  return window['go']['main']['App']['GetAccounts']();
+export function GetAllAccounts() {
+  return window['go']['main']['App']['GetAllAccounts']();
 }
 
 export function GetAllReceipts() {
@@ -24,6 +24,18 @@ export function GetAllReceipts() {
 
 export function GetReceiptById(arg1) {
   return window['go']['main']['App']['GetReceiptById'](arg1);
+}
+
+export function GetTotalBalance() {
+  return window['go']['main']['App']['GetTotalBalance']();
+}
+
+export function GetTotalSpent() {
+  return window['go']['main']['App']['GetTotalSpent']();
+}
+
+export function GetTotalSpentByDateRange(arg1, arg2) {
+  return window['go']['main']['App']['GetTotalSpentByDateRange'](arg1, arg2);
 }
 
 export function Greet(arg1) {

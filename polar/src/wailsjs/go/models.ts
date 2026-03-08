@@ -38,7 +38,7 @@ export namespace queries {
 	}
 	export class Receipt {
 	    id: number;
-	    amount: number;
+	    amount_cents: number;
 	    date: string;
 	    description: sql.NullString;
 	
@@ -49,7 +49,7 @@ export namespace queries {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.id = source["id"];
-	        this.amount = source["amount"];
+	        this.amount_cents = source["amount_cents"];
 	        this.date = source["date"];
 	        this.description = this.convertValues(source["description"], sql.NullString);
 	    }

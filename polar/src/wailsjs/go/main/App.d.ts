@@ -8,11 +8,17 @@ export function CreateReceipt(arg1:number,arg2:string,arg3:string):Promise<queri
 
 export function DeleteReceipt(arg1:number):Promise<void>;
 
-export function GetAccounts():Promise<Array<queries.Account>>;
+export function GetAllAccounts():Promise<Array<queries.Account>>;
 
 export function GetAllReceipts():Promise<Array<queries.Receipt>>;
 
 export function GetReceiptById(arg1:number):Promise<queries.Receipt>;
+
+export function GetTotalBalance():Promise<number>;
+
+export function GetTotalSpent():Promise<number>;
+
+export function GetTotalSpentByDateRange(arg1:string,arg2:string):Promise<number>;
 
 export function Greet(arg1:string):Promise<string>;
 
