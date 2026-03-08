@@ -21,12 +21,3 @@ func ActivateProfile(profileType string) error {
 
 	return nil
 }
-
-func GetAllAccounts() ([]queries.Account, error) {
-	accounts, err := database.Q.GetAllAccounts(context.Background())
-	if err != nil {
-		return []queries.Account{}, fmt.Errorf("failed to load accounts: %w", err)
-	}
-
-	return accounts, nil
-}

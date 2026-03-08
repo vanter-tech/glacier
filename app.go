@@ -45,6 +45,13 @@ func (b *App) ShowDialog() {
 
 // --- Database Bindings ---
 
+// Account Bindings
+
+// CreateAccount creates an account with data sent from Polar
+func (b *App) CreateAccount(name string, accType string, balance float64) (queries.Account, error) {
+	return account.CreateAccount(name, accType, balance)
+}
+
 // GetAllAccounts retrieves a list of all accounts.
 func (b *App) GetAllAccounts() ([]queries.Account, error) {
 	return account.GetAllAccounts()
@@ -57,7 +64,7 @@ func (b *App) ActivateProfile(profileType string) error {
 
 // Receipts Bindings
 
-// CreateReceipt creates a receipt with the form received from React
+// CreateReceipt creates a receipt with the form received from Polar
 func (b *App) CreateReceipt(amount float64, date string, description string) (queries.Receipt, error) {
 	return receipts.CreateReceipt(amount, date, description)
 }
