@@ -16,6 +16,7 @@
     "ADD_RECEIPT": "Add Receipt",
     "NO_RECEIPTS_TITLE": "No Receipts",
     "NO_RECEIPTS_DESC": "Add a receipt to begin.",
+    "NEW_RECEIPT": "New Receipt",
     "AMOUNT": "Amount",
     "DATE": "Date",
     "DESCRIPTION": "Description",
@@ -24,7 +25,10 @@
     "TABLE_ID": "ID",
     "TABLE_DATE": "Date",
     "TABLE_AMOUNT": "Amount",
-    "TABLE_DESCRIPTION": "Description"
+    "TABLE_DESCRIPTION": "Description",
+    "SUMMARY_DASHBOARD": "Summary Dashboard",
+    "TOTAL_BALANCE": "Total Balance",
+    "TOTAL_SPENT": "Total Spent"
   },
   "STORE": {
     "TAB_SUMMARY": "Summary",
@@ -36,6 +40,13 @@
   "UTIL": {
     "SWITCH_PROFILE": "Switch Profile",
     "LIGHT_MODE": "Light Mode",
-    "DARK_MODE": "Dark Mode"
+    "DARK_MODE": "Dark Mode",
+    "RETRY": "Retry",
+    "REFRESH_DATA": "Refresh Data",
+    "SAVE": "Save",
+    "CANCEL": "Cancel"
+  },
+  "ERROR": {
+    "LOADING_SUMMARY": "Error loading summary"
   }
 }
