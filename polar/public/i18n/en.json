@@ -34,6 +34,8 @@
     "TAB_CASH_FLOW": "Cash Flow"
   },
   "UTIL": {
-    "SWITCH_PROFILE": "Switch Profile"
+    "SWITCH_PROFILE": "Switch Profile",
+    "LIGHT_MODE": "Light Mode",
+    "DARK_MODE": "Dark Mode"
   }
 }

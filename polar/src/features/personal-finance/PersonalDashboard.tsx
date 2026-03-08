@@ -74,7 +74,7 @@ export default function PersonalDashboard({ onSwitchProfile }: PersonalDashboard
                             onClick={toggleTheme}
                             className="px-3 py-1 rounded-md border border-smoky/20 dark:border-gh-border hover:bg-smoky/5 dark:hover:bg-gh-surface transition-colors text-sm"
                         >
-                            {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+                            {isDarkMode ? t("UTIL.LIGHT_MODE") : t("UTIL.DARK_MODE")}
                         </button>
 
                         <div className="flex items-center gap-2">

@@ -34,6 +34,8 @@
     "TAB_CASH_FLOW": "Flujo de Efectivo"
   },
   "UTIL": {
-    "SWITCH_PROFILE": "Cambiar Perfil"
+    "SWITCH_PROFILE": "Cambiar Perfil",
+    "LIGHT_MODE": "Modo Claro",
+    "DARK_MODE": "Modo Oscuro"
   }
 }
