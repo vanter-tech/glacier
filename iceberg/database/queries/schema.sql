@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS accounts
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
     name          TEXT NOT NULL,
     type          TEXT NOT NULL,
-    balance_cents INTEGER DEFAULT 0
+    balance_cents INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS transactions

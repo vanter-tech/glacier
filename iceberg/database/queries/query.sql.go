@@ -10,9 +10,33 @@ import (
 	"database/sql"
 )
 
+const createAccount = `-- name: CreateAccount :one
+INSERT INTO accounts (name, type, balance_cents)
+VALUES (?, ?, ?)
+RETURNING id, name, type, balance_cents
+`
+
+type CreateAccountParams struct {
+	Name         string `json:"name"`
+	Type         string `json:"type"`
+	BalanceCents int64  `json:"balance_cents"`
+}
+
+func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (Account, error) {
+	row := q.db.QueryRowContext(ctx, createAccount, arg.Name, arg.Type, arg.BalanceCents)
+	var i Account
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Type,
+		&i.BalanceCents,
+	)
+	return i, err
+}
+
 const createReceipt = `-- name: CreateReceipt :one
 INSERT INTO receipts (amount_cents, date, description)
-VALUES(?, ?, ?)
+VALUES (?, ?, ?)
 RETURNING id, amount_cents, date, description
 `
 
@@ -35,7 +59,9 @@ func (q *Queries) CreateReceipt(ctx context.Context, arg CreateReceiptParams) (R
 }
 
 const deleteReceiptById = `-- name: DeleteReceiptById :exec
-DELETE FROM receipts WHERE id = ?
+DELETE
+FROM receipts
+WHERE id = ?
 `
 
 func (q *Queries) DeleteReceiptById(ctx context.Context, id int64) error {
@@ -44,7 +70,8 @@ func (q *Queries) DeleteReceiptById(ctx context.Context, id int64) error {
 }
 
 const getAllAccounts = `-- name: GetAllAccounts :many
-SELECT id, name, type, balance_cents FROM accounts
+SELECT id, name, type, balance_cents
+FROM accounts
 `
 
 func (q *Queries) GetAllAccounts(ctx context.Context) ([]Account, error) {
@@ -76,7 +103,9 @@ func (q *Queries) GetAllAccounts(ctx context.Context) ([]Account, error) {
 }
 
 const getAllReceipts = `-- name: GetAllReceipts :many
-SELECT id, amount_cents, date, description FROM receipts ORDER BY id DESC
+SELECT id, amount_cents, date, description
+FROM receipts
+ORDER BY id DESC
 `
 
 func (q *Queries) GetAllReceipts(ctx context.Context) ([]Receipt, error) {
@@ -108,8 +137,10 @@ func (q *Queries) GetAllReceipts(ctx context.Context) ([]Receipt, error) {
 }
 
 const getAppSetting = `-- name: GetAppSetting :one
-SELECT value FROM app_settings
-WHERE key = ? LIMIT 1
+SELECT value
+FROM app_settings
+WHERE key = ?
+LIMIT 1
 `
 
 func (q *Queries) GetAppSetting(ctx context.Context, key string) (string, error) {
@@ -120,7 +151,9 @@ func (q *Queries) GetAppSetting(ctx context.Context, key string) (string, error)
 }
 
 const getReceiptById = `-- name: GetReceiptById :one
-SELECT id, amount_cents, date, description FROM receipts WHERE id = ?
+SELECT id, amount_cents, date, description
+FROM receipts
+WHERE id = ?
 `
 
 func (q *Queries) GetReceiptById(ctx context.Context, id int64) (Receipt, error) {
@@ -136,7 +169,8 @@ func (q *Queries) GetReceiptById(ctx context.Context, id int64) (Receipt, error)
 }
 
 const getTotalBalance = `-- name: GetTotalBalance :one
-SELECT CAST(COALESCE(SUM(balance_cents), 0) AS INTEGER) FROM accounts
+SELECT CAST(COALESCE(SUM(balance_cents), 0) AS INTEGER)
+FROM accounts
 `
 
 func (q *Queries) GetTotalBalance(ctx context.Context) (int64, error) {
@@ -147,7 +181,8 @@ func (q *Queries) GetTotalBalance(ctx context.Context) (int64, error) {
 }
 
 const getTotalSpent = `-- name: GetTotalSpent :one
-SELECT CAST(COALESCE(SUM(amount_cents), 0) AS INTEGER) FROM receipts
+SELECT CAST(COALESCE(SUM(amount_cents), 0) AS INTEGER)
+FROM receipts
 `
 
 func (q *Queries) GetTotalSpent(ctx context.Context) (int64, error) {
@@ -158,7 +193,10 @@ func (q *Queries) GetTotalSpent(ctx context.Context) (int64, error) {
 }
 
 const getTotalSpentByDateRange = `-- name: GetTotalSpentByDateRange :one
-SELECT CAST(COALESCE(SUM(amount_cents), 0) AS INTEGER) FROM receipts WHERE date >= ? AND date <= ?
+SELECT CAST(COALESCE(SUM(amount_cents), 0) AS INTEGER)
+FROM receipts
+WHERE date >= ?
+  AND date <= ?
 `
 
 type GetTotalSpentByDateRangeParams struct {
@@ -175,7 +213,8 @@ func (q *Queries) GetTotalSpentByDateRange(ctx context.Context, arg GetTotalSpen
 
 const setAppSetting = `-- name: SetAppSetting :exec
 
-INSERT OR REPLACE INTO app_settings (key, value)
+INSERT OR
+REPLACE INTO app_settings (key, value)
 VALUES (?, ?)
 `
 

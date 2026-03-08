@@ -9,10 +9,10 @@ import (
 )
 
 type Account struct {
-	ID           int64         `json:"id"`
-	Name         string        `json:"name"`
-	Type         string        `json:"type"`
-	BalanceCents sql.NullInt64 `json:"balance_cents"`
+	ID           int64  `json:"id"`
+	Name         string `json:"name"`
+	Type         string `json:"type"`
+	BalanceCents int64  `json:"balance_cents"`
 }
 
 type AppSetting struct {
