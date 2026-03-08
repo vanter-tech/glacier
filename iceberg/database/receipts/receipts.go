@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"glacier/iceberg/database"
 	"glacier/iceberg/database/queries"
+	"math"
 	"time"
 )
 
@@ -20,9 +21,11 @@ func CreateReceipt(amount float64, date string, description string) (queries.Rec
 		return queries.Receipt{}, fmt.Errorf("receipt date cannot be in the future")
 	}
 
+	amountCents := int64(math.Round(amount * 100))
+
 	receipt, err := database.Q.CreateReceipt(context.Background(), queries.CreateReceiptParams{
-		Amount: amount,
-		Date:   date,
+		AmountCents: amountCents,
+		Date:        date,
 		Description: sql.NullString{
 			String: description,
 			Valid:  description != "",
