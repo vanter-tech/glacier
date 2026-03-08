@@ -7,7 +7,7 @@ Glacier is a high-performance, offline-first personal finance desktop applicatio
 The system is divided into two core domains operating within a single compiled native binary using Wails:
 
 * **Iceberg (Backend):** A standalone Go application utilizing an embedded SQLite database. It handles all system I/O, local storage, and business logic.
-* **Polar (Frontend):** A standalone Angular workspace that handles state management and user interface presentation.
+* **Polar (Frontend):** A standalone React workspace that handles state management and user interface presentation.
 
 Communication between Iceberg and Polar is handled natively via Inter-Process Communication (IPC), bypassing traditional HTTP overhead.
 
@@ -17,7 +17,6 @@ Ensure the following dependencies are installed on your development machine:
 
 * [Go](https://go.dev/dl/) (v1.21 or newer)
 * [Node.js](https://nodejs.org/en/) (v18 or newer) and npm
-* [Angular CLI](https://angular.io/cli) (Install globally via `npm install -g @angular/cli`)
 * [Wails CLI](https://wails.io/docs/gettingstarted/installation) (v2.4.0 or newer)
 * A C-Compiler (Required for `go-sqlite3` CGO bindings. Windows requires MinGW-w64; Linux/macOS utilize built-in `gcc`).
 
