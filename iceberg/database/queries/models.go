@@ -38,7 +38,7 @@ type Product struct {
 
 type Receipt struct {
 	ID          int64          `json:"id"`
-	Amount      float64        `json:"amount"`
+	AmountCents int64          `json:"amount_cents"`
 	Date        string         `json:"date"`
 	Description sql.NullString `json:"description"`
 }

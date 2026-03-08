@@ -11,23 +11,23 @@ import (
 )
 
 const createReceipt = `-- name: CreateReceipt :one
-INSERT INTO receipts (amount, date, description)
+INSERT INTO receipts (amount_cents, date, description)
 VALUES(?, ?, ?)
-RETURNING id, amount, date, description
+RETURNING id, amount_cents, date, description
 `
 
 type CreateReceiptParams struct {
-	Amount      float64        `json:"amount"`
+	AmountCents int64          `json:"amount_cents"`
 	Date        string         `json:"date"`
 	Description sql.NullString `json:"description"`
 }
 
 func (q *Queries) CreateReceipt(ctx context.Context, arg CreateReceiptParams) (Receipt, error) {
-	row := q.db.QueryRowContext(ctx, createReceipt, arg.Amount, arg.Date, arg.Description)
+	row := q.db.QueryRowContext(ctx, createReceipt, arg.AmountCents, arg.Date, arg.Description)
 	var i Receipt
 	err := row.Scan(
 		&i.ID,
-		&i.Amount,
+		&i.AmountCents,
 		&i.Date,
 		&i.Description,
 	)
@@ -76,7 +76,7 @@ func (q *Queries) GetAllAccounts(ctx context.Context) ([]Account, error) {
 }
 
 const getAllReceipts = `-- name: GetAllReceipts :many
-SELECT id, amount, date, description FROM receipts ORDER BY id DESC
+SELECT id, amount_cents, date, description FROM receipts ORDER BY id DESC
 `
 
 func (q *Queries) GetAllReceipts(ctx context.Context) ([]Receipt, error) {
@@ -90,7 +90,7 @@ func (q *Queries) GetAllReceipts(ctx context.Context) ([]Receipt, error) {
 		var i Receipt
 		if err := rows.Scan(
 			&i.ID,
-			&i.Amount,
+			&i.AmountCents,
 			&i.Date,
 			&i.Description,
 		); err != nil {
@@ -120,7 +120,7 @@ func (q *Queries) GetAppSetting(ctx context.Context, key string) (string, error)
 }
 
 const getReceiptById = `-- name: GetReceiptById :one
-SELECT id, amount, date, description FROM receipts WHERE id = ?
+SELECT id, amount_cents, date, description FROM receipts WHERE id = ?
 `
 
 func (q *Queries) GetReceiptById(ctx context.Context, id int64) (Receipt, error) {
@@ -128,11 +128,49 @@ func (q *Queries) GetReceiptById(ctx context.Context, id int64) (Receipt, error)
 	var i Receipt
 	err := row.Scan(
 		&i.ID,
-		&i.Amount,
+		&i.AmountCents,
 		&i.Date,
 		&i.Description,
 	)
 	return i, err
+}
+
+const getTotalBalance = `-- name: GetTotalBalance :one
+SELECT CAST(COALESCE(SUM(balance_cents), 0) AS INTEGER) FROM accounts
+`
+
+func (q *Queries) GetTotalBalance(ctx context.Context) (int64, error) {
+	row := q.db.QueryRowContext(ctx, getTotalBalance)
+	var column_1 int64
+	err := row.Scan(&column_1)
+	return column_1, err
+}
+
+const getTotalSpent = `-- name: GetTotalSpent :one
+SELECT CAST(COALESCE(SUM(amount_cents), 0) AS INTEGER) FROM receipts
+`
+
+func (q *Queries) GetTotalSpent(ctx context.Context) (int64, error) {
+	row := q.db.QueryRowContext(ctx, getTotalSpent)
+	var column_1 int64
+	err := row.Scan(&column_1)
+	return column_1, err
+}
+
+const getTotalSpentByDateRange = `-- name: GetTotalSpentByDateRange :one
+SELECT CAST(COALESCE(SUM(amount_cents), 0) AS INTEGER) FROM receipts WHERE date >= ? AND date <= ?
+`
+
+type GetTotalSpentByDateRangeParams struct {
+	Date   string `json:"date"`
+	Date_2 string `json:"date_2"`
+}
+
+func (q *Queries) GetTotalSpentByDateRange(ctx context.Context, arg GetTotalSpentByDateRangeParams) (int64, error) {
+	row := q.db.QueryRowContext(ctx, getTotalSpentByDateRange, arg.Date, arg.Date_2)
+	var column_1 int64
+	err := row.Scan(&column_1)
+	return column_1, err
 }
 
 const setAppSetting = `-- name: SetAppSetting :exec
@@ -146,7 +184,7 @@ type SetAppSettingParams struct {
 	Value string `json:"value"`
 }
 
-// iceberg/database/query.sql
+// iceberg/database/queries/query.sql
 func (q *Queries) SetAppSetting(ctx context.Context, arg SetAppSettingParams) error {
 	_, err := q.db.ExecContext(ctx, setAppSetting, arg.Key, arg.Value)
 	return err

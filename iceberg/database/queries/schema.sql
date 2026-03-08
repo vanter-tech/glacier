@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS store_sales
 CREATE TABLE IF NOT EXISTS receipts
 (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    amount      REAL NOT NULL,
+    amount_cents      INTEGER NOT NULL,
     date        TEXT NOT NULL,
     description TEXT
 );

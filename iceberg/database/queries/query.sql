@@ -1,4 +1,4 @@
--- iceberg/database/query.sql
+-- iceberg/database/queries/query.sql
 
 -- name: SetAppSetting :exec
 INSERT OR REPLACE INTO app_settings (key, value)
@@ -12,7 +12,7 @@ WHERE key = ? LIMIT 1;
 SELECT * FROM accounts;
 
 -- name: CreateReceipt :one
-INSERT INTO receipts (amount, date, description)
+INSERT INTO receipts (amount_cents, date, description)
 VALUES(?, ?, ?)
 RETURNING *;
 
@@ -24,3 +24,12 @@ SELECT * FROM receipts WHERE id = ?;
 
 -- name: DeleteReceiptById :exec
 DELETE FROM receipts WHERE id = ?;
+
+-- name: GetTotalBalance :one
+SELECT CAST(COALESCE(SUM(balance_cents), 0) AS INTEGER) FROM accounts;
+
+-- name: GetTotalSpent :one
+SELECT CAST(COALESCE(SUM(amount_cents), 0) AS INTEGER) FROM receipts;
+
+-- name: GetTotalSpentByDateRange :one
+SELECT CAST(COALESCE(SUM(amount_cents), 0) AS INTEGER) FROM receipts WHERE date >= ? AND date <= ?;
