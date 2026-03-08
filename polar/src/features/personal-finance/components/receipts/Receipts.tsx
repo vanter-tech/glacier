@@ -36,7 +36,7 @@ const ReceiptDetails = ({receipt, onDelete}: ReceiptDetailsProps) => {
         <div className="dark:text-gh-text space-y-2">
             <p><span className="font-bold">ID:</span> {receipt.id}</p>
             <p><span className="font-bold">Date:</span> {receipt.date}</p>
-            <p><span className="font-bold">Amount:</span> ${receipt.amount}</p>
+            <p><span className="font-bold">Amount:</span> ${receipt.amount_cents}</p>
             <p><span className="font-bold">Description:</span> {receipt.description?.String || 'No description'}</p>
 
             <div className="pt-4 border-t border-smoky/10 dark:border-gh-border flex justify-end">
@@ -119,8 +119,7 @@ export default function Receipts() {
                                 >
                                     <td className="py-3 px-6">{receipt.id}</td>
                                     <td className="py-3 px-6">{receipt.date}</td>
-                                    <td className="py-3 px-6 font-medium">${receipt.amount}</td>
-                                    {/* Accessing the Wails sql.NullString .String property */}
+                                    <td className="py-3 px-6 font-medium">${receipt.amount_cents}</td>
                                     <td className="py-3 px-6 truncate max-w-[200px]">{receipt.description?.String}</td>
                                 </tr>
                             ))
