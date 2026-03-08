@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {useTheme} from "../../core/theme/useTheme.ts";
 import Receipts from "./components/receipts/Receipts.tsx";
+import Summary from "./components/summary/Summary.tsx";
 
-const Summary = () => <div>Summary Component</div>;
 const DuePayments = () => <div>Due Payments Component</div>;
 const CashFlow = () => <div>Cash Flow Component</div>;
 
@@ -14,6 +14,9 @@ interface PersonalDashboardProps {
 type Tab = 'summary' | 'receipts' | 'due-payments' | 'cash-flow';
 
 export default function PersonalDashboard({ onSwitchProfile }: PersonalDashboardProps) {
+    const [startDate, setStartDate] = useState<string>('');
+    const [endDate, setEndDate] = useState<string>('');
+
     const { t } = useTranslation();
     const { isDarkMode, toggleTheme } = useTheme();
 
@@ -79,16 +82,20 @@ export default function PersonalDashboard({ onSwitchProfile }: PersonalDashboard
 
                         <div className="flex items-center gap-2">
                             <input type="date"
+                                   value={startDate}
+                                   onChange={(e) => setStartDate(e.target.value)}
                                    className="bg-transparent border border-smoky/20 dark:border-gh-border dark:text-gh-text dark:[color-scheme:dark] rounded px-2 py-1 text-sm outline-none focus:border-sunglow dark:focus:border-gh-accent" />
                             <span className="dark:text-gh-muted">-</span>
                             <input type="date"
+                                   value={endDate}
+                                   onChange={(e) => setEndDate(e.target.value)}
                                    className="bg-transparent border border-smoky/20 dark:border-gh-border dark:text-gh-text dark:[color-scheme:dark] rounded px-2 py-1 text-sm outline-none focus:border-sunglow dark:focus:border-gh-accent" />
                         </div>
                     </div>
                 </header>
 
                 <div className="flex-1 p-8 overflow-y-auto">
-                    {activeTab === 'summary' && <Summary />}
+                    {activeTab === 'summary' && <Summary startDate={startDate} endDate={endDate} />}
                     {activeTab === 'receipts' && <Receipts />}
                     {activeTab === 'due-payments' && <DuePayments />}
                     {activeTab === 'cash-flow' && <CashFlow />}
