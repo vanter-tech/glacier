@@ -4,7 +4,7 @@ import './index.css'
 import App from './App.tsx'
 
 import './core/i18n.ts';
-import {ThemeProvider} from "./core/ThemeProvider.tsx";
+import {ThemeProvider} from "./core/theme/ThemeProvider.tsx";
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>

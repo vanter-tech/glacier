@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useTheme } from '../../core/useTheme';
+import { useTheme } from '../../core/theme/useTheme.ts';
 
 const Summary = () => <div>Store Summary Component</div>;
 const Sales = () => <div>Sales Management Component</div>;
