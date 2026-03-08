@@ -3,9 +3,10 @@ package main
 import (
 	"context"
 	"fmt"
-	"glacier/iceberg/database"
+	"glacier/iceberg/database/account"
 	"glacier/iceberg/database/queries"
-	"glacier/iceberg/receipts"
+	"glacier/iceberg/database/receipts"
+	"glacier/iceberg/database/summary"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -44,24 +45,19 @@ func (b *App) ShowDialog() {
 
 // --- Database Bindings ---
 
-// GetAccounts retrieves a list of all accounts.
-func (b *App) GetAccounts() []queries.Account {
-	accounts, err := database.Q.GetAllAccounts(context.Background())
-
-	if err != nil {
-		fmt.Println("Error fetching accounts from sqlc:", err)
-		return nil
-	}
-
-	return accounts
+// GetAllAccounts retrieves a list of all accounts.
+func (b *App) GetAllAccounts() ([]queries.Account, error) {
+	return account.GetAllAccounts()
 }
 
 // ActivateProfile gets the user's profile from Polar
 func (b *App) ActivateProfile(profileType string) error {
-	return database.ActivateProfile(profileType)
+	return account.ActivateProfile(profileType)
 }
 
-// CreateReceipt creates a receipt with the form received from Angular
+// Receipts Bindings
+
+// CreateReceipt creates a receipt with the form received from React
 func (b *App) CreateReceipt(amount float64, date string, description string) (queries.Receipt, error) {
 	return receipts.CreateReceipt(amount, date, description)
 }
@@ -79,4 +75,21 @@ func (b *App) GetReceiptById(id int64) (queries.Receipt, error) {
 // DeleteReceipt deletes a receipt by ID
 func (b *App) DeleteReceipt(id int64) error {
 	return receipts.DeleteReceiptById(id)
+}
+
+// Summary Bindings
+
+// GetTotalBalance gets the total balance based on account
+func (b *App) GetTotalBalance() (int64, error) {
+	return summary.GetTotalBalance()
+}
+
+// GetTotalSpent gets the total balance spent based on receipts
+func (b *App) GetTotalSpent() (int64, error) {
+	return summary.GetTotalSpent()
+}
+
+// GetTotalSpentByDateRange gets the total balance spent within a time frame
+func (b *App) GetTotalSpentByDateRange(startDate string, endDate string) (int64, error) {
+	return summary.GetTotalSpentByDateRange(startDate, endDate)
 }
