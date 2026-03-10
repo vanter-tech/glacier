@@ -4,9 +4,15 @@ import {queries} from '../models';
 
 export function ActivateProfile(arg1:string):Promise<void>;
 
+export function CreateAccount(arg1:string,arg2:string,arg3:string,arg4:number):Promise<queries.Account>;
+
 export function CreateReceipt(arg1:number,arg2:string,arg3:string):Promise<queries.Receipt>;
 
+export function DeleteAccount(arg1:number):Promise<void>;
+
 export function DeleteReceipt(arg1:number):Promise<void>;
+
+export function GetAccountById(arg1:number):Promise<queries.Account>;
 
 export function GetAllAccounts():Promise<Array<queries.Account>>;
 

@@ -47,14 +47,23 @@ func (b *App) ShowDialog() {
 
 // Account Bindings
 
-// CreateAccount creates an account with data sent from Polar
-func (b *App) CreateAccount(name string, accType string, balance float64) (queries.Account, error) {
-	return account.CreateAccount(name, accType, balance)
+// CreateAccount creates an account with data sent from Polar.
+func (b *App) CreateAccount(name string, accType string, bank string, balance float64) (queries.Account, error) {
+	return account.CreateAccount(name, accType, bank, balance)
+}
+
+// DeleteAccount deletes an account by its ID.
+func (b *App) DeleteAccount(id int64) error {
+	return account.DeleteAccount(id)
 }
 
 // GetAllAccounts retrieves a list of all accounts.
 func (b *App) GetAllAccounts() ([]queries.Account, error) {
 	return account.GetAllAccounts()
+}
+
+func (b *App) GetAccountById(id int64) (queries.Account, error) {
+	return account.GetAccountById(id)
 }
 
 // ActivateProfile gets the user's profile from Polar

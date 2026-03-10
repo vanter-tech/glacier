@@ -6,12 +6,24 @@ export function ActivateProfile(arg1) {
   return window['go']['main']['App']['ActivateProfile'](arg1);
 }
 
+export function CreateAccount(arg1, arg2, arg3, arg4) {
+  return window['go']['main']['App']['CreateAccount'](arg1, arg2, arg3, arg4);
+}
+
 export function CreateReceipt(arg1, arg2, arg3) {
   return window['go']['main']['App']['CreateReceipt'](arg1, arg2, arg3);
 }
 
+export function DeleteAccount(arg1) {
+  return window['go']['main']['App']['DeleteAccount'](arg1);
+}
+
 export function DeleteReceipt(arg1) {
   return window['go']['main']['App']['DeleteReceipt'](arg1);
+}
+
+export function GetAccountById(arg1) {
+  return window['go']['main']['App']['GetAccountById'](arg1);
 }
 
 export function GetAllAccounts() {
