@@ -37,7 +37,7 @@ export default function ReceiptDetails({ receipt, onDelete }: ReceiptDetailsProp
             {t('PERSONAL.TABLE_AMOUNT')}
           </span>
                     <span className="text-3xl font-extrabold text-smoky dark:text-gh-accent">
-            ${receipt.amount_cents.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+            ${(receipt.amount_cents / 100).toLocaleString(undefined, { minimumFractionDigits: 2 })}
           </span>
                 </div>
 

@@ -2,41 +2,8 @@ import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useReceipts} from '../../../../hooks/useReceipts';
 import Modal from '../../../../shared/modal/Modal';
-import {queries} from "../../../../wailsjs/go/models";
 import ReceiptForm from "./components/receipt-form/ReceiptForm.tsx";
-
-interface ReceiptDetailsProps {
-    receipt: queries.Receipt | null;
-    onDelete: (id: number) => void;
-}
-
-const ReceiptDetails = ({receipt, onDelete}: ReceiptDetailsProps) => {
-    const { t } = useTranslation();
-    if (!receipt) return null;
-
-    return (
-        <div className="dark:text-gh-text space-y-2">
-            <p><span className="font-bold">{t('PERSONAL.TABLE_ID')}:</span> {receipt.id}</p>
-            <p><span className="font-bold">{t('PERSONAL.DATE')}:</span> {receipt.date}</p>
-            <p><span className="font-bold">{t('PERSONAL.AMOUNT')}:</span> ${receipt.amount_cents}</p>
-            <p><span className="font-bold">{t('PERSONAL.DESCRIPTION')}:</span> {receipt.description?.String || 'No description'}</p>
-
-            <div className="pt-4 border-t border-smoky/10 dark:border-gh-border flex justify-end">
-                <button
-                    onClick={() => onDelete(receipt.id)}
-                    className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 rounded-md transition-all font-bold text-sm"
-                >
-                    Delete Receipt
-                </button>
-            </div>
-
-            <div className="mt-4 p-4 bg-gh-bg rounded border border-gh-border">
-                <p className="text-xs text-gh-muted mb-2 font-mono">Raw Database Object:</p>
-                <pre className="text-xs overflow-auto">{JSON.stringify(receipt, null, 2)}</pre>
-            </div>
-        </div>
-    );
-};
+import ReceiptDetails from "./components/receipt-details/ReceiptDetails.tsx";
 
 export default function Receipts() {
     const {t} = useTranslation();
@@ -101,7 +68,7 @@ export default function Receipts() {
                                 >
                                     <td className="py-3 px-6">{receipt.id}</td>
                                     <td className="py-3 px-6">{receipt.date}</td>
-                                    <td className="py-3 px-6 font-medium">${receipt.amount_cents}</td>
+                                    <td className="py-3 px-6 font-medium">${(receipt.amount_cents / 100).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                     <td className="py-3 px-6 truncate max-w-[200px]">{receipt.description?.String}</td>
                                 </tr>
                             ))
