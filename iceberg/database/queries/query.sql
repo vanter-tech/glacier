@@ -2,7 +2,8 @@
 
 -- name: SetAppSetting :exec
 INSERT OR
-REPLACE INTO app_settings (key, value)
+REPLACE
+INTO app_settings (key, value)
 VALUES (?, ?);
 
 -- name: GetAppSetting :one
@@ -12,13 +13,23 @@ WHERE key = ?
 LIMIT 1;
 
 -- name: CreateAccount :one
-INSERT INTO accounts (name, type, balance_cents)
-VALUES (?, ?, ?)
+INSERT INTO accounts (name, type, bank, balance_cents)
+VALUES (?, ?, ?, ?)
 RETURNING *;
+
+-- name: DeleteAccount :exec
+DELETE
+FROM accounts
+WHERE id = ?;
 
 -- name: GetAllAccounts :many
 SELECT *
 FROM accounts;
+
+-- name: GetAccountById :one
+SELECT *
+FROM accounts
+WHERE id = ?;
 
 -- name: CreateReceipt :one
 INSERT INTO receipts (amount_cents, date, description)

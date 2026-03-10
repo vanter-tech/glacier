@@ -12,6 +12,7 @@ type Account struct {
 	ID           int64  `json:"id"`
 	Name         string `json:"name"`
 	Type         string `json:"type"`
+	Bank         string `json:"bank"`
 	BalanceCents int64  `json:"balance_cents"`
 }
 

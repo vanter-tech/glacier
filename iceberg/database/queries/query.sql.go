@@ -11,24 +11,31 @@ import (
 )
 
 const createAccount = `-- name: CreateAccount :one
-INSERT INTO accounts (name, type, balance_cents)
-VALUES (?, ?, ?)
-RETURNING id, name, type, balance_cents
+INSERT INTO accounts (name, type, bank, balance_cents)
+VALUES (?, ?, ?, ?)
+RETURNING id, name, type, bank, balance_cents
 `
 
 type CreateAccountParams struct {
 	Name         string `json:"name"`
 	Type         string `json:"type"`
+	Bank         string `json:"bank"`
 	BalanceCents int64  `json:"balance_cents"`
 }
 
 func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (Account, error) {
-	row := q.db.QueryRowContext(ctx, createAccount, arg.Name, arg.Type, arg.BalanceCents)
+	row := q.db.QueryRowContext(ctx, createAccount,
+		arg.Name,
+		arg.Type,
+		arg.Bank,
+		arg.BalanceCents,
+	)
 	var i Account
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
 		&i.Type,
+		&i.Bank,
 		&i.BalanceCents,
 	)
 	return i, err
@@ -58,6 +65,17 @@ func (q *Queries) CreateReceipt(ctx context.Context, arg CreateReceiptParams) (R
 	return i, err
 }
 
+const deleteAccount = `-- name: DeleteAccount :exec
+DELETE
+FROM accounts
+WHERE id = ?
+`
+
+func (q *Queries) DeleteAccount(ctx context.Context, id int64) error {
+	_, err := q.db.ExecContext(ctx, deleteAccount, id)
+	return err
+}
+
 const deleteReceiptById = `-- name: DeleteReceiptById :exec
 DELETE
 FROM receipts
@@ -69,8 +87,27 @@ func (q *Queries) DeleteReceiptById(ctx context.Context, id int64) error {
 	return err
 }
 
+const getAccountById = `-- name: GetAccountById :one
+SELECT id, name, type, bank, balance_cents
+FROM accounts
+WHERE id = ?
+`
+
+func (q *Queries) GetAccountById(ctx context.Context, id int64) (Account, error) {
+	row := q.db.QueryRowContext(ctx, getAccountById, id)
+	var i Account
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Type,
+		&i.Bank,
+		&i.BalanceCents,
+	)
+	return i, err
+}
+
 const getAllAccounts = `-- name: GetAllAccounts :many
-SELECT id, name, type, balance_cents
+SELECT id, name, type, bank, balance_cents
 FROM accounts
 `
 
@@ -87,6 +124,7 @@ func (q *Queries) GetAllAccounts(ctx context.Context) ([]Account, error) {
 			&i.ID,
 			&i.Name,
 			&i.Type,
+			&i.Bank,
 			&i.BalanceCents,
 		); err != nil {
 			return nil, err
@@ -214,7 +252,8 @@ func (q *Queries) GetTotalSpentByDateRange(ctx context.Context, arg GetTotalSpen
 const setAppSetting = `-- name: SetAppSetting :exec
 
 INSERT OR
-REPLACE INTO app_settings (key, value)
+REPLACE
+INTO app_settings (key, value)
 VALUES (?, ?)
 `
 
