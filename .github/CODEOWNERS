@@ -1,0 +1,13 @@
+# This file dictates which teams automatically get assigned to review Pull Requests based on the files changed.
+
+# The **/*.go syntax matches any file ending in .go anywhere in the entire repository.
+# This automatically covers your root app.go, main.go, and any future nested backend packages.
+# It assigns the review to the bhub squad.
+**/*.go @vanter-tech/bhub
+
+# The /polar/ syntax matches the entire directory located at the root of the project.
+# Any changes to React components, CSS, or TSX files inside this folder will require fhub approval.
+/polar/ @vanter-tech/fhub
+
+# Matches the entire icerberg directory at the root and assigns it to the backend squad.
+/iceberg/ @vanter-tech/bhub
