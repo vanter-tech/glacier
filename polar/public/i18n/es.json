@@ -7,6 +7,7 @@
     "STORE_TITLE": "Dueño de Negocios",
     "STORE_DESC": "Administra el inventario de tu negocio, controla precios y lleva las cuentas de crédito de tus clientes."
   },
+
   "PERSONAL": {
     "TAB_SUMMARY": "Resumen",
     "TAB_RECEIPTS": "Recibos",
@@ -28,8 +29,15 @@
     "TABLE_DESCRIPTION": "Descripción",
     "SUMMARY_DASHBOARD": "Panel de Resumen",
     "TOTAL_BALANCE": "Balance Total",
-    "TOTAL_SPENT": "Gasto Total"
+    "TOTAL_SPENT": "Gasto Total",
+    "ACCOUNT_TYPE": "Tipo de Cuenta",
+    "CURRENT_BALANCE": "Balance Actual",
+    "ACCOUNT_NAME": "Nombre de la Cuenta",
+    "MY_ACCOUNTS": "Mis Cuentas",
+    "ADD_ACCOUNT": "Agregar Cuenta",
+    "BANK_INSTITUTION": "Banco / Institución"
   },
+
   "STORE": {
     "TAB_SUMMARY": "Resumen",
     "TAB_SALES": "Ventas",
@@ -37,6 +45,7 @@
     "TAB_CLIENTS": "Clientes",
     "TAB_CASH_FLOW": "Flujo de Efectivo"
   },
+
   "UTIL": {
     "SWITCH_PROFILE": "Cambiar Perfil",
     "LIGHT_MODE": "Modo Claro",
@@ -44,8 +53,23 @@
     "RETRY": "Reintentar",
     "REFRESH_DATA": "Refrescar Datos",
     "SAVE": "Guardar",
-    "CANCEL": "Cancelar"
+    "CANCEL": "Cancelar",
+    "CONFIRM_DELETE": "¿Estás seguro que deseas eliminar?",
+    "DELETE_ACCOUNT": "Eliminar Cuenta",
+    "DELETE_RECEIPT": "Eliminar Recibo"
   },
+
+  "FORM": {
+    "ACCOUNT_NAME": "Nombre de la Cuenta",
+    "TYPE": "Tipo de la Cuenta",
+    "BANK_INSTITUTION": "Institución Bancaria",
+    "INITIAL_BALANCE": "Balance Inicial"
+  },
+
+  "LOADING": {
+    "METRICS": "Cargando Métricas..."
+  },
+
   "ERROR": {
     "LOADING_SUMMARY": "Error cargando resumen"
   }
