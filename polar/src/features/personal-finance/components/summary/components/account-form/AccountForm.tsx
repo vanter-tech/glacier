@@ -40,7 +40,7 @@ export default function AccountForm({onCancel, onSave}: AccountFormProps) {
             )}
 
             <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium dark:text-gh-muted">Account Name</label>
+                <label className="text-sm font-medium dark:text-gh-muted">{t('FORM.ACCOUNT_NAME')}</label>
                 <input
                     type="text"
                     value={name}
@@ -52,20 +52,20 @@ export default function AccountForm({onCancel, onSave}: AccountFormProps) {
             </div>
 
             <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium dark:text-gh-muted">Type</label>
+                <label className="text-sm font-medium dark:text-gh-muted">{t('FORM.TYPE')}</label>
                 <select
                     value={accType}
                     onChange={(e) => setAccType(e.target.value)}
                     className="bg-transparent border border-smoky/20 dark:border-gh-border p-2 rounded focus:border-sunglow dark:focus:border-gh-accent outline-none dark:text-gh-text dark:bg-gh-bg"
                 >
-                    <option value="cash">Cash</option>
-                    <option value="bank">Bank Account</option>
-                    <option value="credit">Credit Card</option>
+                    <option value="cash">{t('UTIL.CASH')}</option>
+                    <option value="bank">{t('UTIL.BANK_ACCOUNT')}</option>
+                    <option value="credit">{t('UTIL.CREDIT_CARD')}</option>
                 </select>
             </div>
 
             <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium dark:text-gh-muted">Bank Institution</label>
+                <label className="text-sm font-medium dark:text-gh-muted">{t('FORM.BANK_INSTITUTION')}</label>
                 <input
                     type="text"
                     value={bank}
@@ -77,7 +77,7 @@ export default function AccountForm({onCancel, onSave}: AccountFormProps) {
             </div>
 
             <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium dark:text-gh-muted">Initial Balance</label>
+                <label className="text-sm font-medium dark:text-gh-muted">{t('FORM.INITIAL_BALANCE')}</label>
                 <input
                     type="number"
                     step="0.01"

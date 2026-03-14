@@ -25,7 +25,7 @@ export default function AccountDetails({ account, onDelete }: AccountDetailsProp
 
                 <div className="flex flex-col gap-1 text-right">
                     <span className="text-gh-muted uppercase text-[10px] font-bold tracking-wider">
-                        Account Type
+                        {t('PERSONAL.ACCOUNT_TYPE')}
                     </span>
                     <span className="text-smoky dark:text-gh-text font-medium capitalize">
                         {account.type}
@@ -34,7 +34,7 @@ export default function AccountDetails({ account, onDelete }: AccountDetailsProp
 
                 <div className="flex flex-col gap-1 col-span-2 p-4 bg-smoky/5 dark:bg-gh-bg rounded-xl border border-smoky/5 dark:border-gh-border mt-2">
                     <span className="text-gh-muted uppercase text-[10px] font-bold tracking-wider mb-1">
-                        Current Balance
+                        {t('PERSONAL.CURRENT_BALANCE')}
                     </span>
                     <span className="text-3xl font-extrabold text-smoky dark:text-gh-accent">
                         ${(account.balance_cents / 100).toLocaleString(undefined, { minimumFractionDigits: 2 })}
@@ -43,7 +43,7 @@ export default function AccountDetails({ account, onDelete }: AccountDetailsProp
 
                 <div className="flex flex-col gap-1">
                     <span className="text-gh-muted uppercase text-[10px] font-bold tracking-wider">
-                        Account Name
+                        {t('PERSONAL.ACCOUNT_NAME')}
                     </span>
                     <p className="text-smoky dark:text-gh-text font-medium">
                         {account.name}
@@ -52,7 +52,7 @@ export default function AccountDetails({ account, onDelete }: AccountDetailsProp
 
                 <div className="flex flex-col gap-1 text-right">
                     <span className="text-gh-muted uppercase text-[10px] font-bold tracking-wider">
-                        Bank / Institution
+                        {t('PERSONAL.BANK_INSTITUTION')}
                     </span>
                     <p className="text-smoky dark:text-gh-text font-medium">
                         {account.bank || 'N/A'}
@@ -66,7 +66,7 @@ export default function AccountDetails({ account, onDelete }: AccountDetailsProp
                         onClick={() => onDelete(account.id)}
                         className="px-4 py-2 text-red-500 hover:bg-red-500/10 rounded-md transition-colors font-semibold text-sm border border-red-500/20"
                     >
-                        Delete Account
+                        {t('UTIL.DELETE_ACCOUNT')}
                     </button>
                 </div>
             )}
