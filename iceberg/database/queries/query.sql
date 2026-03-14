@@ -17,6 +17,11 @@ INSERT INTO accounts (name, type, bank, balance_cents)
 VALUES (?, ?, ?, ?)
 RETURNING *;
 
+-- name: UpdateAccountBalance :exec
+UPDATE accounts
+SET balance_cents = balance_cents + ?
+WHERE id = ?;
+
 -- name: DeleteAccount :exec
 DELETE
 FROM accounts
@@ -32,9 +37,15 @@ FROM accounts
 WHERE id = ?;
 
 -- name: CreateReceipt :one
-INSERT INTO receipts (amount_cents, date, description)
-VALUES (?, ?, ?)
+INSERT INTO receipts (account_id, amount_cents, date, description, type)
+VALUES (?, ?, ?, ?, ?)
 RETURNING *;
+
+-- name: GetReceiptsByAccount :many
+SELECT *
+FROM receipts
+WHERE account_id = ?
+ORDER BY date DESC;
 
 -- name: GetAllReceipts :many
 SELECT *

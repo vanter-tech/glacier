@@ -42,25 +42,35 @@ func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (A
 }
 
 const createReceipt = `-- name: CreateReceipt :one
-INSERT INTO receipts (amount_cents, date, description)
-VALUES (?, ?, ?)
-RETURNING id, amount_cents, date, description
+INSERT INTO receipts (account_id, amount_cents, date, description, type)
+VALUES (?, ?, ?, ?, ?)
+RETURNING id, account_id, amount_cents, date, description, type
 `
 
 type CreateReceiptParams struct {
+	AccountID   int64          `json:"account_id"`
 	AmountCents int64          `json:"amount_cents"`
 	Date        string         `json:"date"`
 	Description sql.NullString `json:"description"`
+	Type        string         `json:"type"`
 }
 
 func (q *Queries) CreateReceipt(ctx context.Context, arg CreateReceiptParams) (Receipt, error) {
-	row := q.db.QueryRowContext(ctx, createReceipt, arg.AmountCents, arg.Date, arg.Description)
+	row := q.db.QueryRowContext(ctx, createReceipt,
+		arg.AccountID,
+		arg.AmountCents,
+		arg.Date,
+		arg.Description,
+		arg.Type,
+	)
 	var i Receipt
 	err := row.Scan(
 		&i.ID,
+		&i.AccountID,
 		&i.AmountCents,
 		&i.Date,
 		&i.Description,
+		&i.Type,
 	)
 	return i, err
 }
@@ -141,7 +151,7 @@ func (q *Queries) GetAllAccounts(ctx context.Context) ([]Account, error) {
 }
 
 const getAllReceipts = `-- name: GetAllReceipts :many
-SELECT id, amount_cents, date, description
+SELECT id, account_id, amount_cents, date, description, type
 FROM receipts
 ORDER BY id DESC
 `
@@ -157,9 +167,11 @@ func (q *Queries) GetAllReceipts(ctx context.Context) ([]Receipt, error) {
 		var i Receipt
 		if err := rows.Scan(
 			&i.ID,
+			&i.AccountID,
 			&i.AmountCents,
 			&i.Date,
 			&i.Description,
+			&i.Type,
 		); err != nil {
 			return nil, err
 		}
@@ -189,7 +201,7 @@ func (q *Queries) GetAppSetting(ctx context.Context, key string) (string, error)
 }
 
 const getReceiptById = `-- name: GetReceiptById :one
-SELECT id, amount_cents, date, description
+SELECT id, account_id, amount_cents, date, description, type
 FROM receipts
 WHERE id = ?
 `
@@ -199,11 +211,50 @@ func (q *Queries) GetReceiptById(ctx context.Context, id int64) (Receipt, error)
 	var i Receipt
 	err := row.Scan(
 		&i.ID,
+		&i.AccountID,
 		&i.AmountCents,
 		&i.Date,
 		&i.Description,
+		&i.Type,
 	)
 	return i, err
+}
+
+const getReceiptsByAccount = `-- name: GetReceiptsByAccount :many
+SELECT id, account_id, amount_cents, date, description, type
+FROM receipts
+WHERE account_id = ?
+ORDER BY date DESC
+`
+
+func (q *Queries) GetReceiptsByAccount(ctx context.Context, accountID int64) ([]Receipt, error) {
+	rows, err := q.db.QueryContext(ctx, getReceiptsByAccount, accountID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Receipt
+	for rows.Next() {
+		var i Receipt
+		if err := rows.Scan(
+			&i.ID,
+			&i.AccountID,
+			&i.AmountCents,
+			&i.Date,
+			&i.Description,
+			&i.Type,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const getTotalBalance = `-- name: GetTotalBalance :one
@@ -265,5 +316,21 @@ type SetAppSettingParams struct {
 // iceberg/database/queries/query.sql
 func (q *Queries) SetAppSetting(ctx context.Context, arg SetAppSettingParams) error {
 	_, err := q.db.ExecContext(ctx, setAppSetting, arg.Key, arg.Value)
+	return err
+}
+
+const updateAccountBalance = `-- name: UpdateAccountBalance :exec
+UPDATE accounts
+SET balance_cents = balance_cents + ?
+WHERE id = ?
+`
+
+type UpdateAccountBalanceParams struct {
+	BalanceCents int64 `json:"balance_cents"`
+	ID           int64 `json:"id"`
+}
+
+func (q *Queries) UpdateAccountBalance(ctx context.Context, arg UpdateAccountBalanceParams) error {
+	_, err := q.db.ExecContext(ctx, updateAccountBalance, arg.BalanceCents, arg.ID)
 	return err
 }

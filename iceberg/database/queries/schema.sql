@@ -57,7 +57,10 @@ CREATE TABLE IF NOT EXISTS store_sales
 CREATE TABLE IF NOT EXISTS receipts
 (
     id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    account_id   INTEGER NOT NULL,
     amount_cents INTEGER NOT NULL,
     date         TEXT    NOT NULL,
-    description  TEXT
+    description  TEXT,
+    type         TEXT    NOT NULL DEFAULT 'expense',
+    FOREIGN KEY (account_id) REFERENCES accounts (id) ON DELETE CASCADE
 );

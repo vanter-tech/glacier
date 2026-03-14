@@ -39,9 +39,11 @@ type Product struct {
 
 type Receipt struct {
 	ID          int64          `json:"id"`
+	AccountID   int64          `json:"account_id"`
 	AmountCents int64          `json:"amount_cents"`
 	Date        string         `json:"date"`
 	Description sql.NullString `json:"description"`
+	Type        string         `json:"type"`
 }
 
 type StoreSale struct {
