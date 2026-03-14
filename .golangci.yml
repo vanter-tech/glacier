@@ -1,0 +1,32 @@
+version: "2"
+
+run:
+  timeout: 5m
+
+linters:
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - typecheck
+    - gocyclo
+    - funlen
+    - gocritic
+    - revive
+
+  settings:
+    errcheck:
+      check-type-assertions: true
+      check-blank: true
+    gocyclo:
+      min-complexity: 15
+    funlen:
+      lines: 60
+      statements: 40
+    gocritic:
+      enabled-tags:
+        - diagnostic
+        - style
+        - performance
