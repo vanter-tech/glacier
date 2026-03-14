@@ -26,7 +26,7 @@ export default function Receipts() {
     };
 
     const handleDelete = async (id: number) => {
-        if (window.confirm(t('UTIL.CONFIRM_DELETE') || 'Are you sure?')) {
+        if (window.confirm(t('UTIL.CONFIRM_DELETE'))) {
             const success = await deleteReceipt(id);
             if (success) {
                 setIsDetailModalOpen(false);
