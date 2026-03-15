@@ -75,3 +75,8 @@ func (b *App) GetAllReceipts() ([]queries.Receipt, error) {
 func (b *App) GetReceiptById(id int64) (queries.Receipt, error) {
 	return receipts.GetReceiptById(id)
 }
+
+// DeleteReceipt deletes a receipt by ID
+func (b *App) DeleteReceipt(id int64) error {
+	return receipts.DeleteReceiptById(id)
+}

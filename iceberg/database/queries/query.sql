@@ -17,7 +17,10 @@ VALUES(?, ?, ?)
 RETURNING *;
 
 -- name: GetAllReceipts :many
-SELECT * FROM receipts ORDER BY date DESC;
+SELECT * FROM receipts ORDER BY id DESC;
 
 -- name: GetReceiptById :one
 SELECT * FROM receipts WHERE id = ?;
+
+-- name: DeleteReceiptById :exec
+DELETE FROM receipts WHERE id = ?;

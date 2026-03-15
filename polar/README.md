@@ -1,32 +1,73 @@
-# Polar
+# React + TypeScript + Vite
 
-Polar is the Angular-based frontend interface for the Glacier desktop application. It provides the user interface for both personal finance management and small business inventory tracking.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Architecture Role
+Currently, two official plugins are available:
 
-Polar serves as the UI layer that communicates with the Go backend via the Wails bridge.
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-* State Management: Handles user transitions between Personal and Store profiles.
-* Data Visualization: Renders financial trends and inventory stock levels.
-* Security: Interfaces with the backend's type-safe sqlc engine.
+## React Compiler
 
-## Getting Started
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-To run the frontend within the desktop environment with hot-reloading:
+## Expanding the ESLint configuration
 
-1. Ensure the Wails CLI is installed.
-2. From the root project directory, run:
-   wails dev
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-To test UI components in isolation:
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-1. Navigate to the frontend directory.
-2. Run:
-   npm install
-   ng serve
-3. Navigate to http://localhost:4200/ in your browser.
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-## Project Structure
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
 
-* src/app/: Contains the core logic for profile switching and dashboards.
-* wailsjs/: Contains the auto-generated TypeScript bindings for the Go backend.
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
+```
