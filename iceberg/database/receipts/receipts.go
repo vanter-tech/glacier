@@ -11,16 +11,14 @@ import (
 	"time"
 )
 
-// CreateReceipt creates a new receipt and updates the account balance.
-func CreateReceipt(accountID int64, amount float64, date, description, receiptType string) (queries.Receipt, error) {
-
+func validateReceiptInput(amount float64, date, receiptType string) (int64, int64, error) {
 	parsedDate, err := time.Parse("2006-01-02", date)
 	if err != nil {
-		return queries.Receipt{}, fmt.Errorf("invalid date format: %w", err)
+		return 0, 0, fmt.Errorf("invalid date format: %w", err)
 	}
 
 	if parsedDate.After(time.Now()) {
-		return queries.Receipt{}, fmt.Errorf("receipt date cannot be in the future")
+		return 0, 0, fmt.Errorf("receipt date cannot be in the future")
 	}
 
 	amountCents := int64(math.Round(amount * 100))
@@ -30,8 +28,17 @@ func CreateReceipt(accountID int64, amount float64, date, description, receiptTy
 		balanceChange = -amountCents
 	}
 
-	ctx := context.Background()
+	return amountCents, balanceChange, nil
+}
 
+// CreateReceipt creates a new receipt and updates the account balance.
+func CreateReceipt(accountID int64, amount float64, date, description, receiptType string) (queries.Receipt, error) {
+	amountCents, balanceChange, err := validateReceiptInput(amount, date, receiptType)
+	if err != nil {
+		return queries.Receipt{}, err
+	}
+
+	ctx := context.Background()
 	tx, err := database.DB.BeginTx(ctx, nil)
 	if err != nil {
 		return queries.Receipt{}, fmt.Errorf("could not being transaction: %w", err)
