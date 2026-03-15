@@ -70,6 +70,10 @@ func CreateReceipt(accountID int64, amount float64, date, description, receiptTy
 		return queries.Receipt{}, fmt.Errorf("failed to update account balance: %w", err)
 	}
 
+	if err := tx.Commit(); err != nil {
+		return queries.Receipt{}, err
+	}
+
 	return receipt, nil
 }
 
