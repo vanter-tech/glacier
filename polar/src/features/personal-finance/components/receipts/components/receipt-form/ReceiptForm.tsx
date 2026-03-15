@@ -35,7 +35,9 @@ export default function ReceiptForm({accounts, onCancel, onSave}: ReceiptFormPro
             return;
         }
 
-        if (!amount || isNaN(parseFloat(amount))) {
+        const parsedAmount = parseFloat(amount);
+
+        if (!amount || isNaN(parseFloat(amount)) || parsedAmount <= 0) {
             setError(t('ERRORS.INVALID_AMOUNT'));
             return;
         }
@@ -47,7 +49,7 @@ export default function ReceiptForm({accounts, onCancel, onSave}: ReceiptFormPro
 
         onSave({
             accountID: parseInt(accountID),
-            amount: parseFloat(amount),
+            amount: parsedAmount,
             date,
             description,
             receiptType: receiptType.toLowerCase()
