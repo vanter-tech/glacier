@@ -82,6 +82,10 @@ func (b *App) GetReceiptByID(id int64) (queries.Receipt, error) {
 	return receipts.GetReceiptByID(id)
 }
 
+func (b *App) GetReceiptsByAccount(accountID int64) ([]queries.Receipt, error) {
+	return receipts.GetReceiptsByAccount(accountID)
+}
+
 func (b *App) DeleteReceiptByID(id int64) error {
 	return receipts.DeleteReceiptByID(id)
 }

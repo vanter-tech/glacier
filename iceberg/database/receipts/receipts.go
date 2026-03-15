@@ -95,10 +95,10 @@ func GetReceiptByID(id int64) (queries.Receipt, error) {
 }
 
 // GetReceiptsByAccount retrieves all receipts based on an account ID
-func GetReceiptsByAccount(id int64) ([]queries.Receipt, error) {
-	receipts, err := database.Q.GetReceiptsByAccount(context.Background(), id)
+func GetReceiptsByAccount(accountID int64) ([]queries.Receipt, error) {
+	receipts, err := database.Q.GetReceiptsByAccount(context.Background(), accountID)
 	if err != nil {
-		return []queries.Receipt{}, fmt.Errorf("could not get receipts from account id: %d: %w", id, err)
+		return []queries.Receipt{}, fmt.Errorf("could not get receipts from account id: %d: %w", accountID, err)
 	}
 
 	return receipts, nil
