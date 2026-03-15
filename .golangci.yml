@@ -6,11 +6,9 @@ run:
 linters:
   enable:
     - errcheck
-    - gosimple
     - govet
     - ineffassign
     - staticcheck
-    - typecheck
     - gocyclo
     - funlen
     - gocritic
@@ -30,3 +28,8 @@ linters:
         - diagnostic
         - style
         - performance
+
+  exclusions:
+    paths:
+      - polar/node_modules
+      - iceberg/database/queries
