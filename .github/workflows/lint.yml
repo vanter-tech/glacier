@@ -22,7 +22,10 @@ jobs:
         with:
           go-version-file: 'go.mod'
           cache: false
-
+      - name: Create dummy frontend build for embed
+        run: |
+          mkdir -p polar/dist
+          touch polar/dist/index.html
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v7
         with:
