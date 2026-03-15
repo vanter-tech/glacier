@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func validateReceiptInput(amount float64, date, receiptType string) (amountCents int64, balanceChange int64, err error) {
+func validateReceiptInput(amount float64, date, receiptType string) (amountCents, balanceChange int64, err error) {
 	parsedDate, err := time.Parse("2006-01-02", date)
 	if err != nil {
 		return 0, 0, fmt.Errorf("invalid date format: %w", err)
