@@ -6,19 +6,21 @@ export function ActivateProfile(arg1:string):Promise<void>;
 
 export function CreateAccount(arg1:string,arg2:string,arg3:string,arg4:number):Promise<queries.Account>;
 
-export function CreateReceipt(arg1:number,arg2:string,arg3:string):Promise<queries.Receipt>;
+export function CreateReceipt(arg1:number,arg2:number,arg3:string,arg4:string,arg5:string):Promise<queries.Receipt>;
 
 export function DeleteAccount(arg1:number):Promise<void>;
 
-export function DeleteReceipt(arg1:number):Promise<void>;
+export function DeleteReceiptByID(arg1:number):Promise<void>;
 
-export function GetAccountById(arg1:number):Promise<queries.Account>;
+export function GetAccountByID(arg1:number):Promise<queries.Account>;
 
 export function GetAllAccounts():Promise<Array<queries.Account>>;
 
 export function GetAllReceipts():Promise<Array<queries.Receipt>>;
 
-export function GetReceiptById(arg1:number):Promise<queries.Receipt>;
+export function GetReceiptByID(arg1:number):Promise<queries.Receipt>;
+
+export function GetReceiptsByAccount(arg1:number):Promise<Array<queries.Receipt>>;
 
 export function GetTotalBalance():Promise<number>;
 

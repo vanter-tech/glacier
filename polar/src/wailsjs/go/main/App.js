@@ -10,20 +10,20 @@ export function CreateAccount(arg1, arg2, arg3, arg4) {
   return window['go']['main']['App']['CreateAccount'](arg1, arg2, arg3, arg4);
 }
 
-export function CreateReceipt(arg1, arg2, arg3) {
-  return window['go']['main']['App']['CreateReceipt'](arg1, arg2, arg3);
+export function CreateReceipt(arg1, arg2, arg3, arg4, arg5) {
+  return window['go']['main']['App']['CreateReceipt'](arg1, arg2, arg3, arg4, arg5);
 }
 
 export function DeleteAccount(arg1) {
   return window['go']['main']['App']['DeleteAccount'](arg1);
 }
 
-export function DeleteReceipt(arg1) {
-  return window['go']['main']['App']['DeleteReceipt'](arg1);
+export function DeleteReceiptByID(arg1) {
+  return window['go']['main']['App']['DeleteReceiptByID'](arg1);
 }
 
-export function GetAccountById(arg1) {
-  return window['go']['main']['App']['GetAccountById'](arg1);
+export function GetAccountByID(arg1) {
+  return window['go']['main']['App']['GetAccountByID'](arg1);
 }
 
 export function GetAllAccounts() {
@@ -34,8 +34,12 @@ export function GetAllReceipts() {
   return window['go']['main']['App']['GetAllReceipts']();
 }
 
-export function GetReceiptById(arg1) {
-  return window['go']['main']['App']['GetReceiptById'](arg1);
+export function GetReceiptByID(arg1) {
+  return window['go']['main']['App']['GetReceiptByID'](arg1);
+}
+
+export function GetReceiptsByAccount(arg1) {
+  return window['go']['main']['App']['GetReceiptsByAccount'](arg1);
 }
 
 export function GetTotalBalance() {

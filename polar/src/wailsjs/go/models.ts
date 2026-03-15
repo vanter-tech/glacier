@@ -22,9 +22,11 @@ export namespace queries {
 	}
 	export class Receipt {
 	    id: number;
+	    account_id: number;
 	    amount_cents: number;
 	    date: string;
 	    description: sql.NullString;
+	    type: string;
 	
 	    static createFrom(source: any = {}) {
 	        return new Receipt(source);
@@ -33,9 +35,11 @@ export namespace queries {
 	    constructor(source: any = {}) {
 	        if ('string' === typeof source) source = JSON.parse(source);
 	        this.id = source["id"];
+	        this.account_id = source["account_id"];
 	        this.amount_cents = source["amount_cents"];
 	        this.date = source["date"];
 	        this.description = this.convertValues(source["description"], sql.NullString);
+	        this.type = source["type"];
 	    }
 	
 		convertValues(a: any, classs: any, asMap: boolean = false): any {
