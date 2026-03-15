@@ -1,0 +1,6 @@
+# This file dictates which teams automatically get assigned to review Pull Requests based on the files changed.
+**/*.go @vanter-tech/bhub
+
+/polar/ @vanter-tech/fhub
+
+/iceberg/ @vanter-tech/bhub
