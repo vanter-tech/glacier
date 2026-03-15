@@ -36,7 +36,8 @@
     "MY_ACCOUNTS": "Mis Cuentas",
     "ADD_ACCOUNT": "Agregar Cuenta",
     "BANK_INSTITUTION": "Banco / Institución",
-    "SELECT_ACCOUNT": "Seleccionar Cuenta"
+    "SELECT_ACCOUNT": "Seleccionar Cuenta",
+    "ACCOUNT_DETAILS": "Detalles de la Cuenta"
   },
 
   "STORE": {
