@@ -1,7 +1,7 @@
 import {useState, useEffect, useMemo, useCallback, useRef} from 'react';
 import {
     GetAllAccounts,
-    CreateAccount, DeleteAccount, GetAccountById
+    CreateAccount, DeleteAccount, GetAccountByID
 } from '../wailsjs/go/main/App';
 import {queries} from '../wailsjs/go/models';
 
@@ -52,7 +52,7 @@ export function useAccounts() {
 
     const viewAccount = async (id: number) => {
         try {
-            const data = await GetAccountById(id);
+            const data = await GetAccountByID(id);
             setSelectedAccount(data);
             return data;
         } catch (error) {
