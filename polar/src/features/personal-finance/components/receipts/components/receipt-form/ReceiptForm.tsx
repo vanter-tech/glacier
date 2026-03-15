@@ -1,14 +1,24 @@
-import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import {useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {queries} from "../../../../../../wailsjs/go/models.ts";
 
 interface ReceiptFormProps {
+    accounts: queries.Account[];
     onCancel: () => void;
-    onSave: (data: { amount: number; date: string; description: string }) => void;
+    onSave: (data: {
+        accountID: number,
+        amount: number;
+        date: string;
+        description: string,
+        receiptType: string
+    }) => void;
 }
 
-export default function ReceiptForm({ onCancel, onSave }: ReceiptFormProps) {
-    const { t } = useTranslation();
+export default function ReceiptForm({accounts, onCancel, onSave}: ReceiptFormProps) {
+    const {t} = useTranslation();
 
+    const [accountID, setAccountID] = useState<string>('');
+    const [receiptType, setReceiptType] = useState<string>('EXPENSE');
     const [amount, setAmount] = useState<string>('');
     const [date, setDate] = useState<string>(new Date().toISOString().split('T')[0]);
     const [description, setDescription] = useState<string>('');
@@ -30,10 +40,17 @@ export default function ReceiptForm({ onCancel, onSave }: ReceiptFormProps) {
             return;
         }
 
+        if (!accountID) {
+            setError(t('ERRORS.NO_ACCOUNT_SELECTED'));
+            return;
+        }
+
         onSave({
+            accountID: parseInt(accountID),
             amount: parseFloat(amount),
             date,
-            description
+            description,
+            receiptType
         });
     };
 
@@ -44,6 +61,21 @@ export default function ReceiptForm({ onCancel, onSave }: ReceiptFormProps) {
                     {error}
                 </div>
             )}
+
+            <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium dark:text-gh-muted">{t('PERSONAL.ACCOUNT')}</label>
+                <select
+                    value={accountID}
+                    onChange={(e) => setAccountID(e.target.value)}
+                    className="bg-transparent border border-smoky/20 dark:border-gh-border p-2 rounded dark:text-gh-text bg-white dark:bg-gh-bg"
+                    required
+                >
+                    <option value="" disabled>{t('PERSONAL.SELECT_ACCOUNT')}</option>
+                    {accounts.map(acc => (
+                        <option key={acc.id} value={acc.id}>{acc.name}</option>
+                    ))}
+                </select>
+            </div>
 
             <div className="flex flex-col gap-1">
                 <label className="text-sm font-medium dark:text-gh-muted">{t('PERSONAL.TABLE_AMOUNT')}</label>
@@ -63,7 +95,7 @@ export default function ReceiptForm({ onCancel, onSave }: ReceiptFormProps) {
                 <input
                     type="date"
                     value={date}
-                    max={new Date().toISOString().split('T')[0]} // Native browser enforcement
+                    max={new Date().toISOString().split('T')[0]}
                     onChange={(e) => setDate(e.target.value)}
                     className="bg-transparent border border-smoky/20 dark:border-gh-border p-2 rounded dark:text-gh-text dark:[color-scheme:dark]"
                     required
@@ -77,6 +109,26 @@ export default function ReceiptForm({ onCancel, onSave }: ReceiptFormProps) {
                     onChange={(e) => setDescription(e.target.value)}
                     className="bg-transparent border border-smoky/20 dark:border-gh-border p-2 rounded h-24 dark:text-gh-text"
                 />
+            </div>
+
+            <div className="flex flex-col gap-1">
+                <label className="text-sm font-medium dark:text-gh-muted">{t('PERSONAL.TYPE')}</label>
+                <div className="flex gap-2">
+                    {['EXPENSE', 'INCOME'].map((type) => (
+                        <button
+                            key={type}
+                            type="button"
+                            onClick={() => setReceiptType(type)}
+                            className={`flex-1 py-2 px-4 rounded border transition-all ${
+                                receiptType === type
+                                    ? 'bg-sunglow/20 border-sunglow dark:border-gh-accent'
+                                    : 'border-smoky/20 dark:border-gh-border dark:text-gh-muted'
+                            }`}
+                        >
+                            {t(`UTIL.${type}`)}
+                        </button>
+                    ))}
+                </div>
             </div>
 
             <div className="flex justify-end gap-3 mt-4">

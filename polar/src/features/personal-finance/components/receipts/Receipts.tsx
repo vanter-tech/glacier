@@ -9,7 +9,8 @@ export default function Receipts() {
     const {t} = useTranslation();
     const {
         receipts, paginatedReceipts, selectedReceipt, deleteReceipt, setSelectedReceipt,
-        currentPage, nextPage, prevPage, saveReceipt, viewReceipt, pageSize
+        currentPage, nextPage, prevPage, saveReceipt, viewReceipt, pageSize,
+        accounts
     } = useReceipts();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -20,7 +21,7 @@ export default function Receipts() {
         setIsDetailModalOpen(true);
     };
 
-    const handleSave = async (data: { amount: number; date: string; description: string }) => {
+    const handleSave = async (data: { accountID: number, amount: number; date: string; description: string, receiptType: string }) => {
         const success = await saveReceipt(data);
         if (success) setIsModalOpen(false);
     };
@@ -114,7 +115,7 @@ export default function Receipts() {
                 <Modal
                     title={t('PERSONAL.NEW_RECEIPT')}
                     onClose={() => setIsModalOpen(false)}
-                    body={<ReceiptForm onCancel={() => setIsModalOpen(false)} onSave={handleSave}/>}
+                    body={<ReceiptForm accounts={accounts} onCancel={() => setIsModalOpen(false)} onSave={handleSave}/>}
                 />
             )}
 
