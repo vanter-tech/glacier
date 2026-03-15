@@ -10,32 +10,86 @@ import (
 	"database/sql"
 )
 
-const createReceipt = `-- name: CreateReceipt :one
-INSERT INTO receipts (amount, date, description)
-VALUES(?, ?, ?)
-RETURNING id, amount, date, description
+const createAccount = `-- name: CreateAccount :one
+INSERT INTO accounts (name, type, bank, balance_cents)
+VALUES (?, ?, ?, ?)
+RETURNING id, name, type, bank, balance_cents
 `
 
-type CreateReceiptParams struct {
-	Amount      float64        `json:"amount"`
-	Date        string         `json:"date"`
-	Description sql.NullString `json:"description"`
+type CreateAccountParams struct {
+	Name         string `json:"name"`
+	Type         string `json:"type"`
+	Bank         string `json:"bank"`
+	BalanceCents int64  `json:"balance_cents"`
 }
 
-func (q *Queries) CreateReceipt(ctx context.Context, arg CreateReceiptParams) (Receipt, error) {
-	row := q.db.QueryRowContext(ctx, createReceipt, arg.Amount, arg.Date, arg.Description)
-	var i Receipt
+func (q *Queries) CreateAccount(ctx context.Context, arg CreateAccountParams) (Account, error) {
+	row := q.db.QueryRowContext(ctx, createAccount,
+		arg.Name,
+		arg.Type,
+		arg.Bank,
+		arg.BalanceCents,
+	)
+	var i Account
 	err := row.Scan(
 		&i.ID,
-		&i.Amount,
-		&i.Date,
-		&i.Description,
+		&i.Name,
+		&i.Type,
+		&i.Bank,
+		&i.BalanceCents,
 	)
 	return i, err
 }
 
+const createReceipt = `-- name: CreateReceipt :one
+INSERT INTO receipts (account_id, amount_cents, date, description, type)
+VALUES (?, ?, ?, ?, ?)
+RETURNING id, account_id, amount_cents, date, description, type
+`
+
+type CreateReceiptParams struct {
+	AccountID   int64          `json:"account_id"`
+	AmountCents int64          `json:"amount_cents"`
+	Date        string         `json:"date"`
+	Description sql.NullString `json:"description"`
+	Type        string         `json:"type"`
+}
+
+func (q *Queries) CreateReceipt(ctx context.Context, arg CreateReceiptParams) (Receipt, error) {
+	row := q.db.QueryRowContext(ctx, createReceipt,
+		arg.AccountID,
+		arg.AmountCents,
+		arg.Date,
+		arg.Description,
+		arg.Type,
+	)
+	var i Receipt
+	err := row.Scan(
+		&i.ID,
+		&i.AccountID,
+		&i.AmountCents,
+		&i.Date,
+		&i.Description,
+		&i.Type,
+	)
+	return i, err
+}
+
+const deleteAccount = `-- name: DeleteAccount :exec
+DELETE
+FROM accounts
+WHERE id = ?
+`
+
+func (q *Queries) DeleteAccount(ctx context.Context, id int64) error {
+	_, err := q.db.ExecContext(ctx, deleteAccount, id)
+	return err
+}
+
 const deleteReceiptById = `-- name: DeleteReceiptById :exec
-DELETE FROM receipts WHERE id = ?
+DELETE
+FROM receipts
+WHERE id = ?
 `
 
 func (q *Queries) DeleteReceiptById(ctx context.Context, id int64) error {
@@ -43,8 +97,28 @@ func (q *Queries) DeleteReceiptById(ctx context.Context, id int64) error {
 	return err
 }
 
+const getAccountById = `-- name: GetAccountById :one
+SELECT id, name, type, bank, balance_cents
+FROM accounts
+WHERE id = ?
+`
+
+func (q *Queries) GetAccountById(ctx context.Context, id int64) (Account, error) {
+	row := q.db.QueryRowContext(ctx, getAccountById, id)
+	var i Account
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Type,
+		&i.Bank,
+		&i.BalanceCents,
+	)
+	return i, err
+}
+
 const getAllAccounts = `-- name: GetAllAccounts :many
-SELECT id, name, type, balance_cents FROM accounts
+SELECT id, name, type, bank, balance_cents
+FROM accounts
 `
 
 func (q *Queries) GetAllAccounts(ctx context.Context) ([]Account, error) {
@@ -60,6 +134,7 @@ func (q *Queries) GetAllAccounts(ctx context.Context) ([]Account, error) {
 			&i.ID,
 			&i.Name,
 			&i.Type,
+			&i.Bank,
 			&i.BalanceCents,
 		); err != nil {
 			return nil, err
@@ -76,7 +151,9 @@ func (q *Queries) GetAllAccounts(ctx context.Context) ([]Account, error) {
 }
 
 const getAllReceipts = `-- name: GetAllReceipts :many
-SELECT id, amount, date, description FROM receipts ORDER BY id DESC
+SELECT id, account_id, amount_cents, date, description, type
+FROM receipts
+ORDER BY id DESC
 `
 
 func (q *Queries) GetAllReceipts(ctx context.Context) ([]Receipt, error) {
@@ -90,9 +167,11 @@ func (q *Queries) GetAllReceipts(ctx context.Context) ([]Receipt, error) {
 		var i Receipt
 		if err := rows.Scan(
 			&i.ID,
-			&i.Amount,
+			&i.AccountID,
+			&i.AmountCents,
 			&i.Date,
 			&i.Description,
+			&i.Type,
 		); err != nil {
 			return nil, err
 		}
@@ -108,8 +187,10 @@ func (q *Queries) GetAllReceipts(ctx context.Context) ([]Receipt, error) {
 }
 
 const getAppSetting = `-- name: GetAppSetting :one
-SELECT value FROM app_settings
-WHERE key = ? LIMIT 1
+SELECT value
+FROM app_settings
+WHERE key = ?
+LIMIT 1
 `
 
 func (q *Queries) GetAppSetting(ctx context.Context, key string) (string, error) {
@@ -120,7 +201,9 @@ func (q *Queries) GetAppSetting(ctx context.Context, key string) (string, error)
 }
 
 const getReceiptById = `-- name: GetReceiptById :one
-SELECT id, amount, date, description FROM receipts WHERE id = ?
+SELECT id, account_id, amount_cents, date, description, type
+FROM receipts
+WHERE id = ?
 `
 
 func (q *Queries) GetReceiptById(ctx context.Context, id int64) (Receipt, error) {
@@ -128,16 +211,102 @@ func (q *Queries) GetReceiptById(ctx context.Context, id int64) (Receipt, error)
 	var i Receipt
 	err := row.Scan(
 		&i.ID,
-		&i.Amount,
+		&i.AccountID,
+		&i.AmountCents,
 		&i.Date,
 		&i.Description,
+		&i.Type,
 	)
 	return i, err
 }
 
+const getReceiptsByAccount = `-- name: GetReceiptsByAccount :many
+SELECT id, account_id, amount_cents, date, description, type
+FROM receipts
+WHERE account_id = ?
+ORDER BY date DESC
+`
+
+func (q *Queries) GetReceiptsByAccount(ctx context.Context, accountID int64) ([]Receipt, error) {
+	rows, err := q.db.QueryContext(ctx, getReceiptsByAccount, accountID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Receipt
+	for rows.Next() {
+		var i Receipt
+		if err := rows.Scan(
+			&i.ID,
+			&i.AccountID,
+			&i.AmountCents,
+			&i.Date,
+			&i.Description,
+			&i.Type,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const getTotalBalance = `-- name: GetTotalBalance :one
+SELECT CAST(COALESCE(SUM(balance_cents), 0) AS INTEGER)
+FROM accounts
+`
+
+func (q *Queries) GetTotalBalance(ctx context.Context) (int64, error) {
+	row := q.db.QueryRowContext(ctx, getTotalBalance)
+	var column_1 int64
+	err := row.Scan(&column_1)
+	return column_1, err
+}
+
+const getTotalSpent = `-- name: GetTotalSpent :one
+SELECT CAST(COALESCE(SUM(amount_cents), 0) AS INTEGER)
+FROM receipts
+WHERE type = 'expense'
+`
+
+func (q *Queries) GetTotalSpent(ctx context.Context) (int64, error) {
+	row := q.db.QueryRowContext(ctx, getTotalSpent)
+	var column_1 int64
+	err := row.Scan(&column_1)
+	return column_1, err
+}
+
+const getTotalSpentByDateRange = `-- name: GetTotalSpentByDateRange :one
+SELECT CAST(COALESCE(SUM(amount_cents), 0) AS INTEGER)
+FROM receipts
+WHERE type = 'expense'
+  AND date >= ?
+  AND date <= ?
+`
+
+type GetTotalSpentByDateRangeParams struct {
+	Date   string `json:"date"`
+	Date_2 string `json:"date_2"`
+}
+
+func (q *Queries) GetTotalSpentByDateRange(ctx context.Context, arg GetTotalSpentByDateRangeParams) (int64, error) {
+	row := q.db.QueryRowContext(ctx, getTotalSpentByDateRange, arg.Date, arg.Date_2)
+	var column_1 int64
+	err := row.Scan(&column_1)
+	return column_1, err
+}
+
 const setAppSetting = `-- name: SetAppSetting :exec
 
-INSERT OR REPLACE INTO app_settings (key, value)
+INSERT OR
+REPLACE
+INTO app_settings (key, value)
 VALUES (?, ?)
 `
 
@@ -146,8 +315,24 @@ type SetAppSettingParams struct {
 	Value string `json:"value"`
 }
 
-// iceberg/database/query.sql
+// iceberg/database/queries/query.sql
 func (q *Queries) SetAppSetting(ctx context.Context, arg SetAppSettingParams) error {
 	_, err := q.db.ExecContext(ctx, setAppSetting, arg.Key, arg.Value)
+	return err
+}
+
+const updateAccountBalance = `-- name: UpdateAccountBalance :exec
+UPDATE accounts
+SET balance_cents = balance_cents + ?
+WHERE id = ?
+`
+
+type UpdateAccountBalanceParams struct {
+	BalanceCents int64 `json:"balance_cents"`
+	ID           int64 `json:"id"`
+}
+
+func (q *Queries) UpdateAccountBalance(ctx context.Context, arg UpdateAccountBalanceParams) error {
+	_, err := q.db.ExecContext(ctx, updateAccountBalance, arg.BalanceCents, arg.ID)
 	return err
 }

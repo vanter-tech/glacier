@@ -1,11 +1,13 @@
+// Package main is the entry point of the application.
 package main
 
 import (
 	"context"
 	"fmt"
-	"glacier/iceberg/database"
+	"glacier/iceberg/database/account"
 	"glacier/iceberg/database/queries"
-	"glacier/iceberg/receipts"
+	"glacier/iceberg/database/receipts"
+	"glacier/iceberg/database/summary"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
@@ -22,7 +24,7 @@ func (b *App) startup(ctx context.Context) {
 	b.ctx = ctx
 }
 
-func (b *App) shutdown(ctx context.Context) {
+func (b *App) shutdown(_ context.Context) {
 	// Perform your teardown here
 }
 
@@ -44,39 +46,60 @@ func (b *App) ShowDialog() {
 
 // --- Database Bindings ---
 
-// GetAccounts retrieves a list of all accounts.
-func (b *App) GetAccounts() []queries.Account {
-	accounts, err := database.Q.GetAllAccounts(context.Background())
+// Account Bindings
 
-	if err != nil {
-		fmt.Println("Error fetching accounts from sqlc:", err)
-		return nil
-	}
-
-	return accounts
+func (b *App) CreateAccount(name, accType, bank string, balance float64) (queries.Account, error) {
+	return account.CreateAccount(name, accType, bank, balance)
 }
 
-// ActivateProfile gets the user's profile from Polar
+func (b *App) DeleteAccount(id int64) error {
+	return account.DeleteAccount(id)
+}
+
+func (b *App) GetAllAccounts() ([]queries.Account, error) {
+	return account.GetAllAccounts()
+}
+
+func (b *App) GetAccountByID(id int64) (queries.Account, error) {
+	return account.GetAccountByID(id)
+}
+
 func (b *App) ActivateProfile(profileType string) error {
-	return database.ActivateProfile(profileType)
+	return account.ActivateProfile(profileType)
 }
 
-// CreateReceipt creates a receipt with the form received from Angular
-func (b *App) CreateReceipt(amount float64, date string, description string) (queries.Receipt, error) {
-	return receipts.CreateReceipt(amount, date, description)
+// Receipts Bindings
+
+func (b *App) CreateReceipt(accountID int64, amount float64, date, description, receiptType string) (queries.Receipt, error) {
+	return receipts.CreateReceipt(accountID, amount, date, description, receiptType)
 }
 
-// GetAllReceipts gets all receipts
 func (b *App) GetAllReceipts() ([]queries.Receipt, error) {
 	return receipts.GetAllReceipts()
 }
 
-// GetReceiptById gets a receipt by ID
-func (b *App) GetReceiptById(id int64) (queries.Receipt, error) {
-	return receipts.GetReceiptById(id)
+func (b *App) GetReceiptByID(id int64) (queries.Receipt, error) {
+	return receipts.GetReceiptByID(id)
 }
 
-// DeleteReceipt deletes a receipt by ID
-func (b *App) DeleteReceipt(id int64) error {
-	return receipts.DeleteReceiptById(id)
+func (b *App) GetReceiptsByAccount(accountID int64) ([]queries.Receipt, error) {
+	return receipts.GetReceiptsByAccount(accountID)
+}
+
+func (b *App) DeleteReceiptByID(id int64) error {
+	return receipts.DeleteReceiptByID(id)
+}
+
+// Summary Bindings
+
+func (b *App) GetTotalBalance() (int64, error) {
+	return summary.GetTotalBalance()
+}
+
+func (b *App) GetTotalSpent() (int64, error) {
+	return summary.GetTotalSpent()
+}
+
+func (b *App) GetTotalSpentByDateRange(startDate, endDate string) (int64, error) {
+	return summary.GetTotalSpentByDateRange(startDate, endDate)
 }

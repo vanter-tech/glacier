@@ -9,10 +9,11 @@ import (
 )
 
 type Account struct {
-	ID           int64         `json:"id"`
-	Name         string        `json:"name"`
-	Type         string        `json:"type"`
-	BalanceCents sql.NullInt64 `json:"balance_cents"`
+	ID           int64  `json:"id"`
+	Name         string `json:"name"`
+	Type         string `json:"type"`
+	Bank         string `json:"bank"`
+	BalanceCents int64  `json:"balance_cents"`
 }
 
 type AppSetting struct {
@@ -38,9 +39,11 @@ type Product struct {
 
 type Receipt struct {
 	ID          int64          `json:"id"`
-	Amount      float64        `json:"amount"`
+	AccountID   int64          `json:"account_id"`
+	AmountCents int64          `json:"amount_cents"`
 	Date        string         `json:"date"`
 	Description sql.NullString `json:"description"`
+	Type        string         `json:"type"`
 }
 
 type StoreSale struct {

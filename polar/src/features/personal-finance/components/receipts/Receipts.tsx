@@ -2,65 +2,15 @@ import {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {useReceipts} from '../../../../hooks/useReceipts';
 import Modal from '../../../../shared/modal/Modal';
-import {queries} from "../../../../wailsjs/go/models";
-
-interface ReceiptFormProps {
-    onCancel: () => void;
-    onSave: (data: { amount: number; date: string; description: string }) => void;
-}
-
-const ReceiptForm = ({onCancel, onSave}: ReceiptFormProps) => (
-    <div className="flex flex-col gap-4">
-        <p className="dark:text-gh-text">Form Placeholder</p>
-        <div className="flex gap-2">
-            <button
-                onClick={() => onSave({amount: 10, date: '2026-01-01', description: 'Test'})}
-                className="bg-sunglow p-2 rounded text-smoky font-bold"
-            >
-                Save Mock
-            </button>
-            <button onClick={onCancel} className="p-2 border dark:text-gh-text">Cancel</button>
-        </div>
-    </div>
-);
-
-interface ReceiptDetailsProps {
-    receipt: queries.Receipt | null;
-    onDelete: (id: number) => void;
-}
-
-const ReceiptDetails = ({receipt, onDelete}: ReceiptDetailsProps) => {
-    if (!receipt) return null;
-
-    return (
-        <div className="dark:text-gh-text space-y-2">
-            <p><span className="font-bold">ID:</span> {receipt.id}</p>
-            <p><span className="font-bold">Date:</span> {receipt.date}</p>
-            <p><span className="font-bold">Amount:</span> ${receipt.amount}</p>
-            <p><span className="font-bold">Description:</span> {receipt.description?.String || 'No description'}</p>
-
-            <div className="pt-4 border-t border-smoky/10 dark:border-gh-border flex justify-end">
-                <button
-                    onClick={() => onDelete(receipt.id)}
-                    className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 rounded-md transition-all font-bold text-sm"
-                >
-                    Delete Receipt
-                </button>
-            </div>
-
-            <div className="mt-4 p-4 bg-gh-bg rounded border border-gh-border">
-                <p className="text-xs text-gh-muted mb-2 font-mono">Raw Database Object:</p>
-                <pre className="text-xs overflow-auto">{JSON.stringify(receipt, null, 2)}</pre>
-            </div>
-        </div>
-    );
-};
+import ReceiptForm from "./components/receipt-form/ReceiptForm.tsx";
+import ReceiptDetails from "./components/receipt-details/ReceiptDetails.tsx";
 
 export default function Receipts() {
     const {t} = useTranslation();
     const {
         receipts, paginatedReceipts, selectedReceipt, deleteReceipt, setSelectedReceipt,
-        currentPage, nextPage, prevPage, saveReceipt, viewReceipt, pageSize
+        currentPage, nextPage, prevPage, saveReceipt, viewReceipt, pageSize,
+        accounts
     } = useReceipts();
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -71,13 +21,13 @@ export default function Receipts() {
         setIsDetailModalOpen(true);
     };
 
-    const handleSave = async (data: { amount: number; date: string; description: string }) => {
+    const handleSave = async (data: { accountID: number, amount: number; date: string; description: string, receiptType: string }) => {
         const success = await saveReceipt(data);
         if (success) setIsModalOpen(false);
     };
 
     const handleDelete = async (id: number) => {
-        if (window.confirm(t('UTIL.CONFIRM_DELETE') || 'Are you sure?')) {
+        if (window.confirm(t('UTIL.CONFIRM_DELETE'))) {
             const success = await deleteReceipt(id);
             if (success) {
                 setIsDetailModalOpen(false);
@@ -119,8 +69,7 @@ export default function Receipts() {
                                 >
                                     <td className="py-3 px-6">{receipt.id}</td>
                                     <td className="py-3 px-6">{receipt.date}</td>
-                                    <td className="py-3 px-6 font-medium">${receipt.amount}</td>
-                                    {/* Accessing the Wails sql.NullString .String property */}
+                                    <td className="py-3 px-6 font-medium">${(receipt.amount_cents / 100).toLocaleString(undefined, { minimumFractionDigits: 2 })}</td>
                                     <td className="py-3 px-6 truncate max-w-[200px]">{receipt.description?.String}</td>
                                 </tr>
                             ))
@@ -166,7 +115,7 @@ export default function Receipts() {
                 <Modal
                     title={t('PERSONAL.NEW_RECEIPT')}
                     onClose={() => setIsModalOpen(false)}
-                    body={<ReceiptForm onCancel={() => setIsModalOpen(false)} onSave={handleSave}/>}
+                    body={<ReceiptForm accounts={accounts} onCancel={() => setIsModalOpen(false)} onSave={handleSave}/>}
                 />
             )}
 

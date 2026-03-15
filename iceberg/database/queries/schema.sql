@@ -9,9 +9,10 @@ CREATE TABLE IF NOT EXISTS app_settings
 CREATE TABLE IF NOT EXISTS accounts
 (
     id            INTEGER PRIMARY KEY AUTOINCREMENT,
-    name          TEXT NOT NULL,
-    type          TEXT NOT NULL,
-    balance_cents INTEGER DEFAULT 0
+    name          TEXT    NOT NULL,
+    type          TEXT    NOT NULL,
+    bank          TEXT    NOT NULL,
+    balance_cents INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS transactions
@@ -55,8 +56,11 @@ CREATE TABLE IF NOT EXISTS store_sales
 );
 CREATE TABLE IF NOT EXISTS receipts
 (
-    id          INTEGER PRIMARY KEY AUTOINCREMENT,
-    amount      REAL NOT NULL,
-    date        TEXT NOT NULL,
-    description TEXT
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    account_id   INTEGER NOT NULL,
+    amount_cents INTEGER NOT NULL,
+    date         TEXT    NOT NULL,
+    description  TEXT,
+    type         TEXT    NOT NULL DEFAULT 'expense',
+    FOREIGN KEY (account_id) REFERENCES accounts (id) ON DELETE CASCADE
 );

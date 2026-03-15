@@ -1,8 +1,9 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { CreateReceipt, GetAllReceipts, GetReceiptById, DeleteReceipt } from '../wailsjs/go/main/App';
+import {CreateReceipt, GetAllReceipts, GetReceiptByID, DeleteReceiptByID, GetAllAccounts} from '../wailsjs/go/main/App';
 import { queries } from '../wailsjs/go/models';
 
 export function useReceipts() {
+    const [accounts, setAccounts] = useState<queries.Account[]>([]);
     const [receipts, setReceipts] = useState<queries.Receipt[]>([]);
     const [selectedReceipt, setSelectedReceipt] = useState<queries.Receipt | null>(null);
     const [currentPage, setCurrentPage] = useState(1);
@@ -20,14 +21,15 @@ export function useReceipts() {
     useEffect(() => {
         const init = async () => {
             await loadReceipts();
+            GetAllAccounts().then(setAccounts).catch(console.error);
         };
 
-        init();
+        void init();
     }, [loadReceipts]);
 
-    const saveReceipt = async (formData: { amount: number, date: string, description: string }) => {
+    const saveReceipt = async (formData: { accountID: number, amount: number, date: string, description: string, receiptType: string }) => {
         try {
-            await CreateReceipt(formData.amount, formData.date, formData.description);
+            await CreateReceipt(formData.accountID, formData.amount, formData.date, formData.description, formData.receiptType);
             await loadReceipts();
             return true;
         } catch (error) {
@@ -38,7 +40,7 @@ export function useReceipts() {
 
     const deleteReceipt = async (id: number)=> {
         try {
-            await DeleteReceipt(id);
+            await DeleteReceiptByID(id);
             await loadReceipts();
             return true;
         } catch (error) {
@@ -49,7 +51,7 @@ export function useReceipts() {
 
     const viewReceipt = async (id: number) => {
         try {
-            const data = await GetReceiptById(id);
+            const data = await GetReceiptByID(id);
             setSelectedReceipt(data);
             return data;
         } catch (error) {
@@ -71,6 +73,7 @@ export function useReceipts() {
     };
 
     return {
+        accounts,
         receipts,
         selectedReceipt,
         setSelectedReceipt,

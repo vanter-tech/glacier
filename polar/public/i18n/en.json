@@ -7,6 +7,7 @@
     "STORE_TITLE": "Store Owner",
     "STORE_DESC": "Manage your local store inventory, track product prices, and maintain client credit tabs."
   },
+
   "PERSONAL": {
     "TAB_SUMMARY": "Summary",
     "TAB_RECEIPTS": "Receipts",
@@ -16,6 +17,7 @@
     "ADD_RECEIPT": "Add Receipt",
     "NO_RECEIPTS_TITLE": "No Receipts",
     "NO_RECEIPTS_DESC": "Add a receipt to begin.",
+    "NEW_RECEIPT": "New Receipt",
     "AMOUNT": "Amount",
     "DATE": "Date",
     "DESCRIPTION": "Description",
@@ -24,8 +26,20 @@
     "TABLE_ID": "ID",
     "TABLE_DATE": "Date",
     "TABLE_AMOUNT": "Amount",
-    "TABLE_DESCRIPTION": "Description"
+    "TABLE_DESCRIPTION": "Description",
+    "SUMMARY_DASHBOARD": "Summary Dashboard",
+    "TOTAL_BALANCE": "Total Balance",
+    "TOTAL_SPENT": "Total Spent",
+    "ACCOUNT_TYPE": "Account Type",
+    "CURRENT_BALANCE": "Current Balance",
+    "ACCOUNT_NAME": "Account Name",
+    "MY_ACCOUNTS": "My Accounts",
+    "ADD_ACCOUNT": "Add Account",
+    "BANK_INSTITUTION": "Bank / Institution",
+    "SELECT_ACCOUNT": "Select Account",
+    "ACCOUNT_DETAILS": "Account Details"
   },
+
   "STORE": {
     "TAB_SUMMARY": "Summary",
     "TAB_SALES": "Sales",
@@ -33,7 +47,39 @@
     "TAB_CLIENTS": "Clients",
     "TAB_CASH_FLOW": "Cash Flow"
   },
+
   "UTIL": {
-    "SWITCH_PROFILE": "Switch Profile"
+    "ACCOUNT": "Account",
+    "SWITCH_PROFILE": "Switch Profile",
+    "LIGHT_MODE": "Light Mode",
+    "DARK_MODE": "Dark Mode",
+    "RETRY": "Retry",
+    "REFRESH_DATA": "Refresh Data",
+    "SAVE": "Save",
+    "CANCEL": "Cancel",
+    "RECEIPT_TYPE": "Receipt Type",
+    "INCOME": "Income",
+    "EXPENSE": "Expense",
+    "CONFIRM_DELETE": "Are you sure you want to delete?",
+    "CASH": "Cash",
+    "BANK_ACCOUNT": "Bank Account",
+    "CREDIT_CARD": "Credit Card",
+    "DELETE_ACCOUNT": "Delete Account",
+    "DELETE_RECEIPT": "Delete Receipt"
+  },
+
+  "FORM": {
+    "ACCOUNT_NAME": "Account Name",
+    "TYPE": "Account Type",
+    "BANK_INSTITUTION": "Bank Institution",
+    "INITIAL_BALANCE": "Initial Balance"
+  },
+
+  "LOADING": {
+    "METRICS": "Loading Metrics..."
+  },
+
+  "ERROR": {
+    "LOADING_SUMMARY": "Error loading summary"
   }
 }
