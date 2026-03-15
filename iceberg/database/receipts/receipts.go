@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-func validateReceiptInput(amount float64, date, receiptType string) (int64, int64, error) {
+func validateReceiptInput(amount float64, date, receiptType string) (amountCents int64, balanceChange int64, err error) {
 	parsedDate, err := time.Parse("2006-01-02", date)
 	if err != nil {
 		return 0, 0, fmt.Errorf("invalid date format: %w", err)
@@ -21,10 +21,10 @@ func validateReceiptInput(amount float64, date, receiptType string) (int64, int6
 		return 0, 0, fmt.Errorf("receipt date cannot be in the future")
 	}
 
-	amountCents := int64(math.Round(amount * 100))
+	amountCents = int64(math.Round(amount * 100))
 
-	balanceChange := amountCents
-	if receiptType == "expense" {
+	balanceChange = amountCents
+	if receiptType == TypeExpense {
 		balanceChange = -amountCents
 	}
 
@@ -117,11 +117,37 @@ func GetReceiptsByAccount(accountID int64) ([]queries.Receipt, error) {
 
 // DeleteReceiptByID deletes a receipt based on its ID
 func DeleteReceiptByID(id int64) error {
-	err := database.Q.DeleteReceiptById(context.Background(), id)
+	ctx := context.Background()
 
+	tx, err := database.DB.BeginTx(ctx, nil)
 	if err != nil {
-		return fmt.Errorf("failed to delete receipt with id: %d: %w", id, err)
+		return fmt.Errorf("could not begin transaction: %w", err)
+	}
+	defer func(tx *sql.Tx) {
+		err := tx.Rollback()
+		if err != nil {
+			return
+		}
+	}(tx)
+
+	qtx := database.Q.WithTx(tx)
+
+	receipt, err := qtx.GetReceiptById(ctx, id)
+	if err != nil {
+		return fmt.Errorf("failed to delete receipt with id %d: %w", id, err)
 	}
 
-	return nil
+	reverseChange := -receipt.AmountCents
+	if receipt.Type == TypeExpense {
+		reverseChange = receipt.AmountCents
+	}
+
+	if err := qtx.UpdateAccountBalance(ctx, queries.UpdateAccountBalanceParams{
+		BalanceCents: reverseChange,
+		ID:           receipt.AccountID,
+	}); err != nil {
+		return fmt.Errorf("failed to reverse account balance: %w", err)
+	}
+
+	return tx.Commit()
 }
