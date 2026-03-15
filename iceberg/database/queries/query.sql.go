@@ -272,6 +272,7 @@ func (q *Queries) GetTotalBalance(ctx context.Context) (int64, error) {
 const getTotalSpent = `-- name: GetTotalSpent :one
 SELECT CAST(COALESCE(SUM(amount_cents), 0) AS INTEGER)
 FROM receipts
+WHERE type = 'expense'
 `
 
 func (q *Queries) GetTotalSpent(ctx context.Context) (int64, error) {
@@ -284,7 +285,8 @@ func (q *Queries) GetTotalSpent(ctx context.Context) (int64, error) {
 const getTotalSpentByDateRange = `-- name: GetTotalSpentByDateRange :one
 SELECT CAST(COALESCE(SUM(amount_cents), 0) AS INTEGER)
 FROM receipts
-WHERE date >= ?
+WHERE type = 'expense'
+  AND date >= ?
   AND date <= ?
 `
 

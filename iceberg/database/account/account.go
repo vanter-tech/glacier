@@ -25,7 +25,7 @@ func CreateAccount(name, accType, bank string, balance float64) (queries.Account
 	return account, nil
 }
 
-// DeleteAccount deletes an acount based on id.
+// DeleteAccount deletes an account based on id.
 func DeleteAccount(id int64) error {
 	err := database.Q.DeleteAccount(context.Background(), id)
 	if err != nil {

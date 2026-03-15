@@ -35,7 +35,8 @@
     "ACCOUNT_NAME": "Account Name",
     "MY_ACCOUNTS": "My Accounts",
     "ADD_ACCOUNT": "Add Account",
-    "BANK_INSTITUTION": "Bank / Institution"
+    "BANK_INSTITUTION": "Bank / Institution",
+    "SELECT_ACCOUNT": "Select Account"
   },
 
   "STORE": {
@@ -47,6 +48,7 @@
   },
 
   "UTIL": {
+    "ACCOUNT": "Account",
     "SWITCH_PROFILE": "Switch Profile",
     "LIGHT_MODE": "Light Mode",
     "DARK_MODE": "Dark Mode",
@@ -54,6 +56,9 @@
     "REFRESH_DATA": "Refresh Data",
     "SAVE": "Save",
     "CANCEL": "Cancel",
+    "RECEIPT_TYPE": "Receipt Type",
+    "INCOME": "Income",
+    "EXPENSE": "Expense",
     "CONFIRM_DELETE": "Are you sure you want to delete?",
     "CASH": "Cash",
     "BANK_ACCOUNT": "Bank Account",

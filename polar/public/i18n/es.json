@@ -35,7 +35,8 @@
     "ACCOUNT_NAME": "Nombre de la Cuenta",
     "MY_ACCOUNTS": "Mis Cuentas",
     "ADD_ACCOUNT": "Agregar Cuenta",
-    "BANK_INSTITUTION": "Banco / Institución"
+    "BANK_INSTITUTION": "Banco / Institución",
+    "SELECT_ACCOUNT": "Seleccionar Cuenta"
   },
 
   "STORE": {
@@ -47,6 +48,7 @@
   },
 
   "UTIL": {
+    "ACCOUNT": "Cuenta",
     "SWITCH_PROFILE": "Cambiar Perfil",
     "LIGHT_MODE": "Modo Claro",
     "DARK_MODE": "Modo Oscuro",
@@ -54,6 +56,12 @@
     "REFRESH_DATA": "Refrescar Datos",
     "SAVE": "Guardar",
     "CANCEL": "Cancelar",
+    "CASH": "Efectivo",
+    "BANK_ACCOUNT": "Cuenta Bancaria",
+    "CREDIT_CARD": "Tarjeta de Crédito",
+    "RECEIPT_TYPE": "Tipo de Recibo",
+    "INCOME": "Ingreso",
+    "EXPENSE": "Gasto",
     "CONFIRM_DELETE": "¿Estás seguro que deseas eliminar?",
     "DELETE_ACCOUNT": "Eliminar Cuenta",
     "DELETE_RECEIPT": "Eliminar Recibo"

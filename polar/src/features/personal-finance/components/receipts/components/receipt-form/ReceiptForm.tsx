@@ -50,7 +50,7 @@ export default function ReceiptForm({accounts, onCancel, onSave}: ReceiptFormPro
             amount: parseFloat(amount),
             date,
             description,
-            receiptType
+            receiptType: receiptType.toLowerCase()
         });
     };
 
@@ -63,7 +63,7 @@ export default function ReceiptForm({accounts, onCancel, onSave}: ReceiptFormPro
             )}
 
             <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium dark:text-gh-muted">{t('PERSONAL.ACCOUNT')}</label>
+                <label className="text-sm font-medium dark:text-gh-muted">{t('UTIL.ACCOUNT')}</label>
                 <select
                     value={accountID}
                     onChange={(e) => setAccountID(e.target.value)}
@@ -112,7 +112,7 @@ export default function ReceiptForm({accounts, onCancel, onSave}: ReceiptFormPro
             </div>
 
             <div className="flex flex-col gap-1">
-                <label className="text-sm font-medium dark:text-gh-muted">{t('PERSONAL.TYPE')}</label>
+                <label className="text-sm font-medium dark:text-gh-muted">{t('UTIL.RECEIPT_TYPE')}</label>
                 <div className="flex gap-2">
                     {['EXPENSE', 'INCOME'].map((type) => (
                         <button

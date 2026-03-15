@@ -134,8 +134,8 @@ export default function Summary({ startDate, endDate }: SummaryProps) {
                     ) : (
                         <div className="p-12 flex flex-col items-center justify-center text-smoky/50 dark:text-gh-muted">
                             <span className="text-3xl mb-3">🏦</span>
-                            <p>No accounts configured yet.</p>
-                            <p className="text-sm">Add your first wallet or bank account to see your total balance.</p>
+                            <p>{t('PERSONAL.NO_ACCOUNTS_CONFIGURED')}</p>
+                            <p className="text-sm">{t('PERSONAL.ADD_FIRST_ACCOUNT_PROMPT')}</p>
                         </div>
                     )}
                 </div>
@@ -143,7 +143,7 @@ export default function Summary({ startDate, endDate }: SummaryProps) {
 
             {isAddAccountOpen && (
                 <Modal
-                    title="Add New Account"
+                    title={t('PERSONAL.ADD_ACCOUNT')}
                     onClose={() => setIsAddAccountOpen(false)}
                     body={<AccountForm onCancel={() => setIsAddAccountOpen(false)} onSave={handleSaveAccount} />}
                 />
@@ -151,7 +151,7 @@ export default function Summary({ startDate, endDate }: SummaryProps) {
 
             {selectedAccount && (
                 <Modal
-                    title="Account Details"
+                    title={t('PERSONAL.ACCOUNT_DETAILS')}
                     onClose={() => setSelectedAccount(null)}
                     body={<AccountDetails account={selectedAccount} onDelete={handleDeleteAccount} />}
                 />
