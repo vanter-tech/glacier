@@ -1,3 +1,4 @@
+// Package summary is responsible for database operations involving UI summary.
 package summary
 
 import (
@@ -8,6 +9,7 @@ import (
 	"time"
 )
 
+// GetTotalBalance retrieves the total balance across all accounts.
 func GetTotalBalance() (int64, error) {
 	total, err := database.Q.GetTotalBalance(context.Background())
 	if err != nil {
@@ -17,6 +19,7 @@ func GetTotalBalance() (int64, error) {
 	return total, nil
 }
 
+// GetTotalSpent retrieves the total amount spent across all transactions.
 func GetTotalSpent() (int64, error) {
 	total, err := database.Q.GetTotalSpent(context.Background())
 	if err != nil {
@@ -26,7 +29,9 @@ func GetTotalSpent() (int64, error) {
 	return total, nil
 }
 
-func GetTotalSpentByDateRange(startDate string, endDate string) (int64, error) {
+// GetTotalSpentByDateRange retrieves the total amount spent within a specific date range.
+// It expects dates in "YYYY-MM-DD" format.
+func GetTotalSpentByDateRange(startDate, endDate string) (int64, error) {
 	_, err := time.Parse("2006-01-02", startDate)
 	if err != nil {
 		return 0, fmt.Errorf("invalid date format: %w", err)
