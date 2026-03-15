@@ -1,0 +1,42 @@
+name: Vanter Bot
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  execute_merge:
+    name: Process Merge Command
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '@Vanter/bot merge')
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+
+    steps:
+      - name: Acknowledge Command
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.reactions.createForIssueComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              comment_id: context.payload.comment.id,
+              content: '+1'
+            });
+            github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: "Placed this PR in the auto-merge queue. It will be squashed, merged, and the branch will be deleted once all status checks pass."
+            });
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Queue the Merge
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # The GitHub CLI tells the repo to auto-squash and clean up the branch
+          gh pr merge ${{ github.event.issue.number }} --auto --squash --delete-branch
