@@ -36,6 +36,8 @@ Otherwise, add a description of the dependency and the alternatives you consider
 - [ ] **Considered all affected platforms** and tested each (Mobile, Website, Application)
 - [ ] **Tests added/updated** (where needed)
 - [ ] **Docs added/updated** (if needed)
+<!-- Wherever UI changes are done, new translations have to be done for main languages (English/Spanish) -->
+- [ ] **New translations** added.
 
 ### Screenshots
 
