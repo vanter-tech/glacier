@@ -1,3 +1,4 @@
+// Main Package
 package main
 
 import (
@@ -23,7 +24,7 @@ func (b *App) startup(ctx context.Context) {
 	b.ctx = ctx
 }
 
-func (b *App) shutdown(ctx context.Context) {
+func (b *App) shutdown(_ context.Context) {
 	// Perform your teardown here
 }
 
@@ -47,65 +48,54 @@ func (b *App) ShowDialog() {
 
 // Account Bindings
 
-// CreateAccount creates an account with data sent from Polar.
-func (b *App) CreateAccount(name string, accType string, bank string, balance float64) (queries.Account, error) {
+func (b *App) CreateAccount(name, accType, bank string, balance float64) (queries.Account, error) {
 	return account.CreateAccount(name, accType, bank, balance)
 }
 
-// DeleteAccount deletes an account by its ID.
 func (b *App) DeleteAccount(id int64) error {
 	return account.DeleteAccount(id)
 }
 
-// GetAllAccounts retrieves a list of all accounts.
 func (b *App) GetAllAccounts() ([]queries.Account, error) {
 	return account.GetAllAccounts()
 }
 
-func (b *App) GetAccountById(id int64) (queries.Account, error) {
-	return account.GetAccountById(id)
+func (b *App) GetAccountByID(id int64) (queries.Account, error) {
+	return account.GetAccountByID(id)
 }
 
-// ActivateProfile gets the user's profile from Polar
 func (b *App) ActivateProfile(profileType string) error {
 	return account.ActivateProfile(profileType)
 }
 
 // Receipts Bindings
 
-// CreateReceipt creates a receipt with the form received from Polar
-func (b *App) CreateReceipt(amount float64, date string, description string) (queries.Receipt, error) {
-	return receipts.CreateReceipt(amount, date, description)
+func (b *App) CreateReceipt(accountID int64, amount float64, date, description, receiptType string) (queries.Receipt, error) {
+	return receipts.CreateReceipt(accountID, amount, date, description, receiptType)
 }
 
-// GetAllReceipts gets all receipts
 func (b *App) GetAllReceipts() ([]queries.Receipt, error) {
 	return receipts.GetAllReceipts()
 }
 
-// GetReceiptById gets a receipt by ID
-func (b *App) GetReceiptById(id int64) (queries.Receipt, error) {
-	return receipts.GetReceiptById(id)
+func (b *App) GetReceiptByID(id int64) (queries.Receipt, error) {
+	return receipts.GetReceiptByID(id)
 }
 
-// DeleteReceipt deletes a receipt by ID
-func (b *App) DeleteReceipt(id int64) error {
-	return receipts.DeleteReceiptById(id)
+func (b *App) DeleteReceiptByID(id int64) error {
+	return receipts.DeleteReceiptByID(id)
 }
 
 // Summary Bindings
 
-// GetTotalBalance gets the total balance based on account
 func (b *App) GetTotalBalance() (int64, error) {
 	return summary.GetTotalBalance()
 }
 
-// GetTotalSpent gets the total balance spent based on receipts
 func (b *App) GetTotalSpent() (int64, error) {
 	return summary.GetTotalSpent()
 }
 
-// GetTotalSpentByDateRange gets the total balance spent within a time frame
-func (b *App) GetTotalSpentByDateRange(startDate string, endDate string) (int64, error) {
+func (b *App) GetTotalSpentByDateRange(startDate, endDate string) (int64, error) {
 	return summary.GetTotalSpentByDateRange(startDate, endDate)
 }

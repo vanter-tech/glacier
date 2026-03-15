@@ -1,3 +1,4 @@
+// Package account handles database operations for user financial accounts.
 package account
 
 import (
@@ -8,7 +9,8 @@ import (
 	"math"
 )
 
-func CreateAccount(name string, accType string, bank string, balance float64) (queries.Account, error) {
+// CreateAccount inserts a new account record into the database.
+func CreateAccount(name, accType, bank string, balance float64) (queries.Account, error) {
 	balanceCents := int64(math.Round(balance * 100))
 	account, err := database.Q.CreateAccount(context.Background(), queries.CreateAccountParams{
 		Name:         name,
@@ -23,6 +25,7 @@ func CreateAccount(name string, accType string, bank string, balance float64) (q
 	return account, nil
 }
 
+// DeleteAccount deletes an acount based on id.
 func DeleteAccount(id int64) error {
 	err := database.Q.DeleteAccount(context.Background(), id)
 	if err != nil {
@@ -32,6 +35,7 @@ func DeleteAccount(id int64) error {
 	return nil
 }
 
+// GetAllAccounts gets all accounts stored in database.
 func GetAllAccounts() ([]queries.Account, error) {
 	accounts, err := database.Q.GetAllAccounts(context.Background())
 	if err != nil {
@@ -41,7 +45,8 @@ func GetAllAccounts() ([]queries.Account, error) {
 	return accounts, nil
 }
 
-func GetAccountById(id int64) (queries.Account, error) {
+// GetAccountByID gets an specific account by its ID
+func GetAccountByID(id int64) (queries.Account, error) {
 	account, err := database.Q.GetAccountById(context.Background(), id)
 	if err != nil {
 		return queries.Account{}, fmt.Errorf("could not find account with id: %d: %w", id, err)

@@ -1,3 +1,4 @@
+// Package account handles database operations for user financial accounts.
 package account
 
 import (
@@ -7,6 +8,7 @@ import (
 	"glacier/iceberg/database/queries"
 )
 
+// ActivateProfile activates a profile based on what user picks in Polar UI.
 func ActivateProfile(profileType string) error {
 	database.InitDB()
 

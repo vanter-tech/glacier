@@ -1,3 +1,4 @@
+// Package database handles all database operations.
 package database
 
 import (
@@ -9,15 +10,20 @@ import (
 	"os"
 	"path/filepath"
 
+	// Needed blank import for sql driver
 	_ "modernc.org/sqlite"
 )
 
 //go:embed queries/schema.sql
 var schemaSQL string
 
+// DB is the global database connection pool.
 var DB *sql.DB
+
+// Q is the global database queries instance.
 var Q *queries.Queries
 
+// InitDB initializes the database connection and schema.
 func InitDB() {
 	home, err := os.UserHomeDir()
 	if err != nil {
@@ -26,7 +32,7 @@ func InitDB() {
 
 	appDir := filepath.Join(home, ".glacier")
 	if _, err := os.Stat(appDir); os.IsNotExist(err) {
-		err := os.MkdirAll(appDir, 0755)
+		err := os.MkdirAll(appDir, 0o755)
 		if err != nil {
 			log.Fatal("Could not create glacier directory")
 		}

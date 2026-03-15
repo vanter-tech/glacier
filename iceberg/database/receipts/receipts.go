@@ -1,3 +1,4 @@
+// Package receipts handles all database logic regarding receipts created in Polar UI.
 package receipts
 
 import (
@@ -10,7 +11,8 @@ import (
 	"time"
 )
 
-func CreateReceipt(accountId int64, amount float64, date string, description string, receiptType string) (queries.Receipt, error) {
+// CreateReceipt creates a new receipt and updates the account balance.
+func CreateReceipt(accountID int64, amount float64, date, description, receiptType string) (queries.Receipt, error) {
 
 	parsedDate, err := time.Parse("2006-01-02", date)
 	if err != nil {
@@ -35,12 +37,17 @@ func CreateReceipt(accountId int64, amount float64, date string, description str
 		return queries.Receipt{}, fmt.Errorf("could not being transaction: %w", err)
 	}
 
-	defer tx.Rollback()
+	defer func(tx *sql.Tx) {
+		err = tx.Rollback()
+		if err != nil {
+			return
+		}
+	}(tx)
 
 	qtx := database.Q.WithTx(tx)
 
 	receipt, err := qtx.CreateReceipt(ctx, queries.CreateReceiptParams{
-		AccountID:   accountId,
+		AccountID:   accountID,
 		AmountCents: amountCents,
 		Date:        date,
 		Description: sql.NullString{
@@ -56,7 +63,7 @@ func CreateReceipt(accountId int64, amount float64, date string, description str
 
 	err = qtx.UpdateAccountBalance(ctx, queries.UpdateAccountBalanceParams{
 		BalanceCents: balanceChange,
-		ID:           accountId,
+		ID:           accountID,
 	})
 
 	if err != nil {
@@ -66,6 +73,7 @@ func CreateReceipt(accountId int64, amount float64, date string, description str
 	return receipt, nil
 }
 
+// GetAllReceipts retrieves all receipts from the database.
 func GetAllReceipts() ([]queries.Receipt, error) {
 	receipts, err := database.Q.GetAllReceipts(context.Background())
 
@@ -76,7 +84,8 @@ func GetAllReceipts() ([]queries.Receipt, error) {
 	return receipts, nil
 }
 
-func GetReceiptById(id int64) (queries.Receipt, error) {
+// GetReceiptByID retrieves a single receipt by its ID.
+func GetReceiptByID(id int64) (queries.Receipt, error) {
 	receipt, err := database.Q.GetReceiptById(context.Background(), id)
 	if err != nil {
 		return queries.Receipt{}, fmt.Errorf("failed to fetch receipt with id: %d: %w", id, err)
@@ -85,6 +94,7 @@ func GetReceiptById(id int64) (queries.Receipt, error) {
 	return receipt, nil
 }
 
+// GetReceiptsByAccount retrieves all receipts based on an account ID
 func GetReceiptsByAccount(id int64) ([]queries.Receipt, error) {
 	receipts, err := database.Q.GetReceiptsByAccount(context.Background(), id)
 	if err != nil {
@@ -94,7 +104,8 @@ func GetReceiptsByAccount(id int64) ([]queries.Receipt, error) {
 	return receipts, nil
 }
 
-func DeleteReceiptById(id int64) error {
+// DeleteReceiptByID deletes a receipt based on its ID
+func DeleteReceiptByID(id int64) error {
 	err := database.Q.DeleteReceiptById(context.Background(), id)
 
 	if err != nil {
